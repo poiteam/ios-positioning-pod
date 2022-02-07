@@ -1,0 +1,11 @@
+framework module PoilabsPositioning {
+  umbrella header "PoilabsPositioning.h"
+
+  export *
+  module * { export * }
+}
+
+module PoilabsPositioning.Swift {
+    header "PoilabsPositioning-Swift.h"
+    requires objc
+}

@@ -1,0 +1,87 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name PoilabsPositioning
+import CoreLocation
+import Foundation
+@_exported import PoilabsPositioning
+import Swift
+import _Concurrency
+@objc public class PLPBeaconNode : ObjectiveC.NSObject {
+  @objc final public let lat: Swift.Double
+  @objc final public let lon: Swift.Double
+  @objc final public let floor: Swift.Int
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc public init(major: Swift.Int, minor: Swift.Int, txPower: Swift.Int, isEncrypted: Swift.Bool, uuid: Swift.String, lat: Swift.Double, lon: Swift.Double, floor: Swift.Int)
+  @objc deinit
+}
+@objc public class PLPBeaconFilter : ObjectiveC.NSObject {
+  public init?(uuid: Swift.String, majors: [Swift.Int], isEncrypted: Swift.Bool)
+  @objc deinit
+}
+@objc public class PLPConfig : ObjectiveC.NSObject {
+  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode], conversionFactor: Swift.Double, usePDR: Swift.Bool = false, useMultilateration: Swift.Bool = false, useGPS: Swift.Bool = false)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class PLPBeacon : ObjectiveC.NSObject {
+  public static func == (lhs: PLPBeaconNode, rhs: PLPBeacon) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol PoilabsPositioningDelegate {
+  @objc func poilabsPositioning(didStatusChange status: PLPStatus, reason: PLPLocationStatusReason)
+  @objc func poilabsPositioning(didFindBeacon uuid: Swift.String, major: Swift.String, minor: Swift.String)
+  @objc func poilabsPositioning(didFail error: PoilabsPositioningError)
+  @objc func poilabsPositioning(didUpdateLocation location: PLPBeaconNode)
+  @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
+}
+@objc public class PoilabsPositioning : ObjectiveC.NSObject {
+  @objc public var delegate: PoilabsPositioningDelegate?
+  @objc public init(config: PLPConfig)
+  @objc deinit
+  @objc public func startPoilabsPositioning()
+  @objc public func stopPoilabsPositioning()
+  @objc public func closeAllActions()
+}
+@objc public enum PLPStatus : Swift.Int, Swift.RawRepresentable {
+  case locationFound
+  case waitingForLocation
+  case locationNotFound
+  case locationingStoped
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum PLPLocationStatusReason : Swift.Int, Swift.RawRepresentable {
+  case missingPermission
+  case timeOut
+  case sensorError
+  case emptyList
+  case invalidUUID
+  case beaconNotFound
+  case noReason
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum PoilabsPositioningError : Swift.Int, Swift.RawRepresentable {
+  public typealias RawValue = Swift.String
+  case emptyList
+  case invalidUUID
+  case didFailWithError
+  case monitoringDidFailFor
+  case didFailRangingFor
+  case timeIntervalInvalid
+  case beaconNotFound
+  case bluetoothNotAvaible
+  case locationNotAvaible
+  public var rawValue: PoilabsPositioningError.RawValue {
+    get
+  }
+  public init?(rawValue: PoilabsPositioningError.RawValue)
+}
