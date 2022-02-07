@@ -4,38 +4,6 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Frameworks/libswiftCore.dylib</key>
-		<data>
-		yVK047jbgXB0FD31mm0BU56+doE=
-		</data>
-		<key>Frameworks/libswiftCoreFoundation.dylib</key>
-		<data>
-		0adOOAn7XDAUq/9HDpV1Q+pIKKY=
-		</data>
-		<key>Frameworks/libswiftCoreGraphics.dylib</key>
-		<data>
-		vceOorD6/fbYHTmffJCCloU75/k=
-		</data>
-		<key>Frameworks/libswiftCoreLocation.dylib</key>
-		<data>
-		wsrW2MuCVkhHFseUdCADsQJItuc=
-		</data>
-		<key>Frameworks/libswiftDarwin.dylib</key>
-		<data>
-		op6GL6tN61b5OQxoXFo73d4k5Oo=
-		</data>
-		<key>Frameworks/libswiftDispatch.dylib</key>
-		<data>
-		qDJ789p3uLEeRC236fIaK6Iv43U=
-		</data>
-		<key>Frameworks/libswiftFoundation.dylib</key>
-		<data>
-		K3ZRTtIMsgcJmxFuyBW9g9DcsAo=
-		</data>
-		<key>Frameworks/libswiftObjectiveC.dylib</key>
-		<data>
-		HYWqQZGDoVydaESDcpsa1t0OC9U=
-		</data>
 		<key>Headers/PLPConfig.swift</key>
 		<data>
 		BOtkMupkkkHmSMXrkDu/3lpA0Xs=
@@ -87,62 +55,6 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Frameworks/libswiftCore.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			WHOOR0kQtyTzXLBOOsnTIYFmWu8mSxG0o09JLo/8lDo=
-			</data>
-		</dict>
-		<key>Frameworks/libswiftCoreFoundation.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			BiHfJ7Qmo6tHdl5N+q7HX77HZN2jBhzxgI8yQ7lrTdQ=
-			</data>
-		</dict>
-		<key>Frameworks/libswiftCoreGraphics.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			jwUT5fba/k8NJJyFr4GUQ2YaLi6LnZ/i4iZwdrYfP7Q=
-			</data>
-		</dict>
-		<key>Frameworks/libswiftCoreLocation.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			5hTiQdAN/iap1vWLbctj43L92GqC91nWtNRYXbFn+fE=
-			</data>
-		</dict>
-		<key>Frameworks/libswiftDarwin.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			5BgC60eVGxiS+h3ydozVGMT4Xex8W4H0Gj2qsXoYMf0=
-			</data>
-		</dict>
-		<key>Frameworks/libswiftDispatch.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			KHf89B212MrfESgzmgHttizGxrIcrNx3fMsWeM9TgfE=
-			</data>
-		</dict>
-		<key>Frameworks/libswiftFoundation.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			SG13/ErFmGEAZXsoS7AxRlbppYY1KFXdr1hi5zg8cw8=
-			</data>
-		</dict>
-		<key>Frameworks/libswiftObjectiveC.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			QtRGAtk78s5vsSpkfmQBbJcqqeyaaLGk9TiSkvkjIrI=
-			</data>
-		</dict>
 		<key>Headers/PLPConfig.swift</key>
 		<dict>
 			<key>hash2</key>
