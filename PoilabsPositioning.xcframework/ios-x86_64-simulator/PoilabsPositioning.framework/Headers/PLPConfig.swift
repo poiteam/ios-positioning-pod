@@ -13,7 +13,7 @@ public class PLPConfig: NSObject {
     let locationUpdateInterval: Double
     let beaconFilters: [PLPBeaconFilter]
     let rssiFilter: Double?
-    let beaconList: [PLPBeaconNode]
+    var beaconList: [PLPBeaconNode]
     let conversionFactor: Double?
     let usePDR: Bool
     let useMultilateration: Bool

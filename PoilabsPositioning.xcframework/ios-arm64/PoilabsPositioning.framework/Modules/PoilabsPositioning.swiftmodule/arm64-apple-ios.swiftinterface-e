@@ -43,6 +43,7 @@ import _Concurrency
   @objc public init(config: PoilabsPositioning.PLPConfig)
   @objc deinit
   @objc public func startPoilabsPositioning()
+  @objc public func startPoilabsPositioning(with beaconList: [PoilabsPositioning.PLPBeaconNode])
   @objc public func stopPoilabsPositioning()
   @objc public func closeAllActions()
 }

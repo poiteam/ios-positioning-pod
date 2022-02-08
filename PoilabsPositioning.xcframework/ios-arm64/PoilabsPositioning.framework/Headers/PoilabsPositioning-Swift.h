@@ -268,6 +268,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning18PoilabsPositioning")
 @property (nonatomic, strong) id <PoilabsPositioningDelegate> _Nullable delegate;
 - (nonnull instancetype)initWithConfig:(PLPConfig * _Nonnull)config OBJC_DESIGNATED_INITIALIZER;
 - (void)startPoilabsPositioning;
+- (void)startPoilabsPositioningWith:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList;
 - (void)stopPoilabsPositioning;
 - (void)closeAllActions;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;

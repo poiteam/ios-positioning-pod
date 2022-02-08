@@ -54,6 +54,12 @@ public class PoilabsPositioning: NSObject {
         beaconLocationManager.startBeaconPositioning()
         self.startTimer()
     }
+    
+    @objc public func startPoilabsPositioning(with beaconList: [PLPBeaconNode]) {
+        self.config.beaconList = beaconList
+        startPoilabsPositioning()
+    }
+    
     @objc
     public func stopPoilabsPositioning() {
         self.stopTimer()
