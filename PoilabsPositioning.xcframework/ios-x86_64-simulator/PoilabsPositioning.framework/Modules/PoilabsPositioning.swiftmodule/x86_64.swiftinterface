@@ -6,15 +6,17 @@ import Foundation
 @_exported import PoilabsPositioning
 import Swift
 import _Concurrency
-@objc public class PLPBeaconNode : ObjectiveC.NSObject {
+@objc public class PLPBeaconNode : ObjectiveC.NSObject, Swift.Codable {
   @objc final public let lat: Swift.Double
   @objc final public let lon: Swift.Double
   @objc final public let floor: Swift.Int
   @objc override dynamic public var hash: Swift.Int {
     @objc get
   }
-  @objc public init(major: Swift.Int, minor: Swift.Int, txPower: Swift.Int, isEncrypted: Swift.Bool, uuid: Swift.String, lat: Swift.Double, lon: Swift.Double, floor: Swift.Int)
+  @objc public init(major: Swift.Int, minor: Swift.Int, txPower: Swift.Int, uuid: Swift.String, lat: Swift.Double, lon: Swift.Double, floor: Swift.Int)
   @objc deinit
+  public func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
 }
 @objc public class PLPBeaconFilter : ObjectiveC.NSObject {
   public init?(uuid: Swift.String, majors: [Swift.Int], isEncrypted: Swift.Bool)

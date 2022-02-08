@@ -231,7 +231,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPBeaconNode")
 @property (nonatomic, readonly) double lon;
 @property (nonatomic, readonly) NSInteger floor;
 @property (nonatomic, readonly) NSUInteger hash;
-- (nonnull instancetype)initWithMajor:(NSInteger)major minor:(NSInteger)minor txPower:(NSInteger)txPower isEncrypted:(BOOL)isEncrypted uuid:(NSString * _Nonnull)uuid lat:(double)lat lon:(double)lon floor:(NSInteger)floor OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithMajor:(NSInteger)major minor:(NSInteger)minor txPower:(NSInteger)txPower uuid:(NSString * _Nonnull)uuid lat:(double)lat lon:(double)lon floor:(NSInteger)floor OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
