@@ -129,6 +129,7 @@ extension PoilabsPositioning: PLPBeaconPositionFinderDelegate {
             delegate?.poilabsPositioning(didStatusChange: .locationNotFound, reason: .noReason)
         case .beaconNotFound:
             PoilabsPositioningUtils.logDebugInformations(log: "beacon not found", priority: 20)
+            lastCalculatedLocation = nil
         case .bluetoothNotAvaible:
             delegate?.poilabsPositioning(didStatusChange: .locationNotFound, reason: .missingPermission)
         case .locationNotAvaible:
