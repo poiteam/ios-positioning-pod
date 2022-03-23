@@ -48,7 +48,9 @@ public class PoilabsPositioning: NSObject {
         if self.config.useGPS {
             
         }
-        beaconLocationManager = PLPBeaconPositionFinder(config: config)
+        if beaconLocationManager == nil {
+            beaconLocationManager = PLPBeaconPositionFinder(config: config)
+        }
         beaconLocationManager.delegate = self
         delegate?.poilabsPositioning(didStatusChange: .waitingForLocation, reason: .noReason)
         beaconLocationManager.startBeaconPositioning()
@@ -57,7 +59,6 @@ public class PoilabsPositioning: NSObject {
     
     @objc public func startPoilabsPositioning(with beaconList: [PLPBeaconNode]) {
         self.config.beaconList = beaconList
-        startPoilabsPositioning()
     }
     
     @objc
@@ -96,6 +97,7 @@ extension PoilabsPositioning {
             return
         }
         self.locationNotFoundCounter = 0
+        PoilabsPositioningUtils.logDebugInformations(log: "poilabsPositioning(didUpdateLocation) \(Date()) ", priority: 10)
         delegate?.poilabsPositioning(didUpdateLocation: lastCalculatedLocation)
     }
 }
