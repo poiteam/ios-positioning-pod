@@ -18,7 +18,7 @@
 		</data>
 		<key>Headers/PoilabsPositioning.swift</key>
 		<data>
-		mWiRGOE48VsAqXNjbjp+rPzRx4A=
+		FuKtzhZXcZ8azQWtt0Cq82dILoo=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -26,11 +26,11 @@
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		Jb7AJ87ttTueNQnAZvEI0KfJ9Ls=
+		EjtTK3hsH2uHDl0MfBmyCo3egZw=
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<data>
-		Jb7AJ87ttTueNQnAZvEI0KfJ9Ls=
+		EjtTK3hsH2uHDl0MfBmyCo3egZw=
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		IKJYnbi38+9kf9YS4N9TvWE/rrY=
+		jOzOre356nF0sn0MhQ/yTkUayEg=
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		IKJYnbi38+9kf9YS4N9TvWE/rrY=
+		jOzOre356nF0sn0MhQ/yTkUayEg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -88,21 +88,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			r3QiQSF5hy2YfeFJWm6955T73G88yTkXdCx0YInCxcw=
+			qPrX5uSiEyF1qgKZZs7EPFj+TquBy+zRMcDLf9mZI0k=
 			</data>
 		</dict>
 		<key>Modules/PoilabsPositioning.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mAKppjmxkuK0ZxRQHP0r76JKJuvjYV3PgeWz0Lfp+kc=
+			6o2WcHcL0gUgT1i2FC/Mf/FJ/qNVLHFlyHpbIB3fhrE=
 			</data>
 		</dict>
 		<key>Modules/PoilabsPositioning.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mAKppjmxkuK0ZxRQHP0r76JKJuvjYV3PgeWz0Lfp+kc=
+			6o2WcHcL0gUgT1i2FC/Mf/FJ/qNVLHFlyHpbIB3fhrE=
 			</data>
 		</dict>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -123,7 +123,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			T6zFDV7TyHvPkr03ApowsJaPv8TkqeBhNuEBvuK+YZY=
+			/5myEHmvhpND9ykiNxMwaLZ8Dv3GSwYBHB8UKLmj26c=
 			</data>
 		</dict>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64.swiftdoc</key>
@@ -144,7 +144,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			T6zFDV7TyHvPkr03ApowsJaPv8TkqeBhNuEBvuK+YZY=
+			/5myEHmvhpND9ykiNxMwaLZ8Dv3GSwYBHB8UKLmj26c=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
