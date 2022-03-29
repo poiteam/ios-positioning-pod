@@ -15,6 +15,7 @@ public protocol PoilabsPositioningDelegate {
     @objc func poilabsPositioning(didFail error: PoilabsPositioningError)
     @objc func poilabsPositioning(didUpdateLocation location: PLPBeaconNode)
     @objc func poilabsPositioning(didUpdateHeading heading: CLHeading)
+    @objc func poilabsPositioningDidStart()
 }
 @objc
 public class PoilabsPositioning: NSObject {
@@ -103,6 +104,10 @@ extension PoilabsPositioning {
 }
 
 extension PoilabsPositioning: PLPBeaconPositionFinderDelegate {
+    func beaconPositionFinderDidStart() {
+        delegate?.poilabsPositioningDidStart()
+    }
+    
     func beaconPositionFinder(didFindBeacon uuid: String, major: String, minor: String) {
         delegate?.poilabsPositioning(didFindBeacon: uuid, major: major, minor: minor)
     }

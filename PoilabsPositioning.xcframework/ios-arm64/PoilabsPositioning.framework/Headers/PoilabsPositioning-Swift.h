@@ -287,6 +287,7 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidFail:(enum PoilabsPositioningError)error;
 - (void)poilabsPositioningWithDidUpdateLocation:(PLPBeaconNode * _Nonnull)location;
 - (void)poilabsPositioningWithDidUpdateHeading:(CLHeading * _Nonnull)heading;
+- (void)poilabsPositioningDidStart;
 @end
 
 typedef SWIFT_ENUM(NSInteger, PoilabsPositioningError, open) {
