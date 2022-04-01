@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name PoilabsPositioning
 import CoreLocation
 import Foundation
@@ -19,7 +19,7 @@ import _Concurrency
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc public class PLPBeaconFilter : ObjectiveC.NSObject {
-  public init?(uuid: Swift.String, majors: [Swift.Int], isEncrypted: Swift.Bool)
+  @objc public init?(uuid: Swift.String, majors: [Swift.Int], isEncrypted: Swift.Bool)
   @objc deinit
 }
 @objc public class PLPConfig : ObjectiveC.NSObject {
@@ -89,3 +89,9 @@ import _Concurrency
   }
   public init?(rawValue: PoilabsPositioning.PoilabsPositioningError.RawValue)
 }
+extension PoilabsPositioning.PLPStatus : Swift.Equatable {}
+extension PoilabsPositioning.PLPStatus : Swift.Hashable {}
+extension PoilabsPositioning.PLPLocationStatusReason : Swift.Equatable {}
+extension PoilabsPositioning.PLPLocationStatusReason : Swift.Hashable {}
+extension PoilabsPositioning.PoilabsPositioningError : Swift.Equatable {}
+extension PoilabsPositioning.PoilabsPositioningError : Swift.Hashable {}
