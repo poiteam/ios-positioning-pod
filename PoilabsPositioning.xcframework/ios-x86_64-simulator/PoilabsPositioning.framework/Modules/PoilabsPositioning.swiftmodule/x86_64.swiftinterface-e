@@ -39,7 +39,7 @@ import _Concurrency
   @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
   @objc func poilabsPositioningDidStart()
 }
-@objc public class PoilabsPositioning : ObjectiveC.NSObject {
+@objc public class PLPositioning : ObjectiveC.NSObject {
   @objc public var delegate: PoilabsPositioning.PoilabsPositioningDelegate?
   @objc public init(config: PoilabsPositioning.PLPConfig)
   @objc deinit

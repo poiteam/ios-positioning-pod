@@ -264,8 +264,8 @@ typedef SWIFT_ENUM(NSInteger, PLPStatus, open) {
 
 @protocol PoilabsPositioningDelegate;
 
-SWIFT_CLASS("_TtC18PoilabsPositioning18PoilabsPositioning")
-@interface PoilabsPositioning : NSObject
+SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
+@interface PLPositioning : NSObject
 @property (nonatomic, strong) id <PoilabsPositioningDelegate> _Nullable delegate;
 - (nonnull instancetype)initWithConfig:(PLPConfig * _Nonnull)config OBJC_DESIGNATED_INITIALIZER;
 - (void)startPoilabsPositioning;
