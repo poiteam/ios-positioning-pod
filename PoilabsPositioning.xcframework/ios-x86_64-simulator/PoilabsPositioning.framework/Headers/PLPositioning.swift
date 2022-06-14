@@ -91,7 +91,7 @@ extension PLPositioning {
         guard let lastCalculatedLocation = lastCalculatedLocation else {
             self.locationNotFoundCounter += 1
             PoilabsPositioningUtils.logDebugInformations(log: "No location calculated", priority: 20)
-            if self.locationNotFoundCounter >= 3 {
+            if self.locationNotFoundCounter >= 5 {
                 delegate?.poilabsPositioning(didFail: .beaconNotFound)
                 delegate?.poilabsPositioning(didStatusChange: .locationNotFound, reason: .beaconNotFound)
             }
