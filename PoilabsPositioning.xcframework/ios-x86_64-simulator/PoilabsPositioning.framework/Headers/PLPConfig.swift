@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 @objc
 public class PLPConfig: NSObject {
@@ -14,7 +15,7 @@ public class PLPConfig: NSObject {
     let beaconFilters: [PLPBeaconFilter]
     let rssiFilter: Double?
     var beaconList: [PLPBeaconNode]
-    let conversionFactor: Double?
+    let conversionFactor: Double
     let usePDR: Bool
     let useMultilateration: Bool
     let useGPS: Bool
@@ -31,5 +32,9 @@ public class PLPConfig: NSObject {
         self.usePDR = usePDR
         self.useMultilateration = useMultilateration
         self.useGPS = useGPS
+    }
+    
+    func getBeaconNode(beacon: CLBeacon) -> PLPBeaconNode? {
+        return self.beaconList.first(where: {$0.major == Int(truncating: beacon.major) && $0.minor == Int(truncating: beacon.minor) && $0.uuid == beacon.proximityUUID.uuidString})
     }
 }

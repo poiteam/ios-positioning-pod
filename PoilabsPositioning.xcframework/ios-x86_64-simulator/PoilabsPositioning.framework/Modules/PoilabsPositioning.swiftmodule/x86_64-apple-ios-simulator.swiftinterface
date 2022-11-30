@@ -1,12 +1,202 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
 // swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name PoilabsPositioning
+import Accelerate
 import CoreLocation
+import CoreMotion
 import Foundation
+import Accelerate.vecLib.LinearAlgebra
 @_exported import PoilabsPositioning
 import Swift
 import _Concurrency
+@objc public enum HeadingMode : Swift.Int {
+  case trueHeading, computedHeading
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct GeometryCollection : Swift.Equatable, ForeignMemberContainer {
+  public var geometries: [Geometry]
+  public var foreignMembers: JSONObject
+  public init(geometries: [Geometry])
+  public init(_ multiPolygon: MultiPolygon)
+  public static func == (a: GeometryCollection, b: GeometryCollection) -> Swift.Bool
+}
+extension GeometryCollection : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class PLPLocation : ObjectiveC.NSObject {
+  public func getLocation() -> CoreLocation.CLLocationCoordinate2D
+  @objc deinit
+}
+extension Swift.Double {
+  @inlinable public static var VALUE_NOT_SET: Swift.Double {
+    get { return 0.0 }
+  }
+  @inlinable public static var EARTH_RADIUS: Swift.Double {
+    get { return 6371 }
+  }
+  @inlinable public static var HUMAN_WALKING_SPEED: Swift.Double {
+    get { return 1.388889 }
+  }
+  @inlinable public static var ROOT_MEAN_SQUARE_NOT_SET: Swift.Double {
+    get { return -1 }
+  }
+  @inlinable public static var PATH_LOSS_PARAMETER_INDOOR: Swift.Double {
+    get { return 2.2 }
+  }
+}
+extension Swift.Int {
+  @inlinable public static var RSSI_At_1_METER: Swift.Int {
+    get { return -60 }
+  }
+  @inlinable public static var UPDATE_INTERVAL_IMMEDIATE: Swift.Int {
+    get { return 3 }
+  }
+  @inlinable public static var UPDATE_INTERVAL_FAST: Swift.Int {
+    get { return 100 }
+  }
+  @inlinable public static var UPDATE_INTERVAL_MEDIUM: Swift.Int {
+    get { return 500 }
+  }
+  @inlinable public static var UPDATE_INTERVAL_SLOW: Swift.Int {
+    get { return 3000 }
+  }
+  @inlinable public static var ROOT_MEAN_SQUARE_THRESHOLD_STRICT: Swift.Int {
+    get { return 5 }
+  }
+  @inlinable public static var ROOT_MEAN_SQUARE_THRESHOLD_MEDIUM: Swift.Int {
+    get { return 10 }
+  }
+  @inlinable public static var ROOT_MEAN_SQUARE_THRESHOLD_LIGHT: Swift.Int {
+    get { return 25 }
+  }
+  @inlinable public static var MINIMUM_BEACON_COUNT: Swift.Int {
+    get { return 3 }
+  }
+  @inlinable public static var OPTIMUM_BEACON_SELECTION_COUNT: Swift.Int {
+    get { return 4 }
+  }
+  @inlinable public static var MAXIMUM_BEACON_COUNT: Swift.Int {
+    get { return 10 }
+  }
+  @inlinable public static var MAXIMUM_MOVEMENT_SPEED_NOT_SET: Swift.Int {
+    get { return -1 }
+  }
+}
+public typealias LineSegment = (LocationCoordinate2D, LocationCoordinate2D)
+public func intersection(_ line1: LineSegment, _ line2: LineSegment) -> LocationCoordinate2D?
+public func mid(_ coord1: LocationCoordinate2D, _ coord2: LocationCoordinate2D) -> LocationCoordinate2D
+public struct FeatureCollection : Swift.Equatable, ForeignMemberContainer {
+  public var features: [Feature]
+  public var foreignMembers: JSONObject
+  public init(features: [Feature])
+  public static func == (a: FeatureCollection, b: FeatureCollection) -> Swift.Bool
+}
+extension FeatureCollection : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum GeoJSONObject : Swift.Equatable {
+  case geometry(_: Geometry)
+  case feature(_: Feature)
+  case featureCollection(_: FeatureCollection)
+  public init(_ object: GeoJSONObjectConvertible)
+  public static func == (a: GeoJSONObject, b: GeoJSONObject) -> Swift.Bool
+}
+extension GeoJSONObject : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public protocol GeoJSONObjectConvertible {
+  var geoJSONObject: GeoJSONObject { get }
+}
+extension GeoJSONObject : GeoJSONObjectConvertible {
+  public var geoJSONObject: GeoJSONObject {
+    get
+  }
+}
+extension Geometry : GeoJSONObjectConvertible {
+  public var geoJSONObject: GeoJSONObject {
+    get
+  }
+}
+extension Feature : GeoJSONObjectConvertible {
+  public var geoJSONObject: GeoJSONObject {
+    get
+  }
+}
+extension FeatureCollection : GeoJSONObjectConvertible {
+  public var geoJSONObject: GeoJSONObject {
+    get
+  }
+}
+public protocol ForeignMemberContainer {
+  var foreignMembers: JSONObject { get set }
+}
+extension Swift.CodingUserInfoKey {
+  public static let includesForeignMembers: Swift.CodingUserInfoKey
+}
+public struct BoundingBox {
+  public var southWest: LocationCoordinate2D
+  public var northEast: LocationCoordinate2D
+  public init?(from coordinates: [LocationCoordinate2D]?)
+  public init(southWest: LocationCoordinate2D, northEast: LocationCoordinate2D)
+  public func contains(_ coordinate: LocationCoordinate2D, ignoreBoundary: Swift.Bool = true) -> Swift.Bool
+}
+extension BoundingBox : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: BoundingBox, b: BoundingBox) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension BoundingBox : Swift.Codable {
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum FeatureIdentifier : Swift.Hashable {
+  case string(_: Swift.String)
+  case number(_: Swift.Double)
+  public init(_ string: Swift.String)
+  public init<Source>(_ number: Source) where Source : Swift.BinaryInteger
+  public init<Source>(_ number: Source) where Source : Swift.BinaryFloatingPoint
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: FeatureIdentifier, b: FeatureIdentifier) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension FeatureIdentifier : Swift.RawRepresentable {
+  public typealias RawValue = Any
+  public init?(rawValue: Any)
+  public var rawValue: Any {
+    get
+  }
+}
+extension FeatureIdentifier : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension FeatureIdentifier : Swift.ExpressibleByIntegerLiteral {
+  public init(integerLiteral value: Swift.IntegerLiteralType)
+  public typealias IntegerLiteralType = Swift.IntegerLiteralType
+}
+extension FeatureIdentifier : Swift.ExpressibleByFloatLiteral {
+  public init(floatLiteral value: Swift.FloatLiteralType)
+  public typealias FloatLiteralType = Swift.FloatLiteralType
+}
+extension FeatureIdentifier : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
 @objc public class PLPBeaconNode : ObjectiveC.NSObject, Swift.Codable {
+  final public let minor: Swift.Int
   @objc final public let lat: Swift.Double
   @objc final public let lon: Swift.Double
   @objc final public let floor: Swift.Int
@@ -18,35 +208,151 @@ import _Concurrency
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
+public struct MultiPoint : Swift.Equatable, ForeignMemberContainer {
+  public var coordinates: [LocationCoordinate2D]
+  public var foreignMembers: JSONObject
+  public init(_ coordinates: [LocationCoordinate2D])
+  public static func == (a: MultiPoint, b: MultiPoint) -> Swift.Bool
+}
+extension MultiPoint : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct MultiPolygon : Swift.Equatable, ForeignMemberContainer {
+  public var coordinates: [[[LocationCoordinate2D]]]
+  public var foreignMembers: JSONObject
+  public var polygons: [Polygon] {
+    get
+  }
+  public init(_ coordinates: [[[LocationCoordinate2D]]])
+  public init(_ polygons: [Polygon])
+  public static func == (a: MultiPolygon, b: MultiPolygon) -> Swift.Bool
+}
+extension MultiPolygon : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension MultiPolygon {
+  public func contains(_ coordinate: LocationCoordinate2D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
 @objc public class PLPBeaconFilter : ObjectiveC.NSObject {
   @objc public init?(uuid: Swift.String, majors: [Swift.Int], isEncrypted: Swift.Bool)
   @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class PLRoutingUtils : ObjectiveC.NSObject {
+  @objc public static var shared: PLRoutingUtils
+  @objc public func getNearestPointOnRoute(location: CoreLocation.CLLocationCoordinate2D, route: [CoreLocation.CLLocation]) -> CoreLocation.CLLocationCoordinate2D
+  @objc public func distanceToRoute(location: CoreLocation.CLLocationCoordinate2D, route: [CoreLocation.CLLocation]) -> Swift.Double
+  @objc override dynamic public init()
+  @objc deinit
+}
+public typealias LocationDirection = CoreLocation.CLLocationDirection
+public typealias LocationDistance = CoreLocation.CLLocationDistance
+public typealias LocationDegrees = CoreLocation.CLLocationDegrees
+public typealias LocationCoordinate2D = CoreLocation.CLLocationCoordinate2D
+extension Swift.Double {
+  public func wrap(min minimumValue: LocationDirection, max maximumValue: LocationDirection) -> LocationDirection
+  public func difference(from beta: LocationDirection) -> LocationDirection
+}
+extension Swift.Double {
+  public func toRadians() -> LocationRadians
+  public func toDegrees() -> LocationDirection
+}
+extension CoreLocation.CLLocationCoordinate2D : Swift.Equatable {
+  public init(_ radianCoordinate: RadianCoordinate2D)
+  public static func == (lhs: LocationCoordinate2D, rhs: LocationCoordinate2D) -> Swift.Bool
+  public func direction(to coordinate: LocationCoordinate2D) -> LocationDirection
+  public func coordinate(at distance: LocationDistance, facing direction: LocationDirection) -> LocationCoordinate2D
+  public func coordinate(at distance: LocationDistance, facing direction: Foundation.Measurement<Foundation.UnitAngle>) -> LocationCoordinate2D
+  public func distance(to coordinate: LocationCoordinate2D) -> LocationDistance
+}
+@_inheritsConvenienceInitializers @objc public class PLPGeoJSONMapManager : ObjectiveC.NSObject {
+  @objc public static var shared: PLPGeoJSONMapManager
+  @objc public func setWalkways(dict: Foundation.NSDictionary?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public typealias LocationRadians = Swift.Double
+public typealias RadianDistance = Swift.Double
+public struct RadianCoordinate2D {
+  public init(latitude: LocationRadians, longitude: LocationRadians)
+  public init(_ degreeCoordinate: LocationCoordinate2D)
+  public func direction(to coordinate: RadianCoordinate2D) -> Foundation.Measurement<Foundation.UnitAngle>
+  public func coordinate(at distance: RadianDistance, facing direction: Foundation.Measurement<Foundation.UnitAngle>) -> RadianCoordinate2D
+  public func distance(to coordinate: RadianCoordinate2D) -> RadianDistance
+}
+public struct Feature : Swift.Equatable, ForeignMemberContainer {
+  public var identifier: FeatureIdentifier?
+  public var properties: JSONObject?
+  public var geometry: Geometry?
+  public var foreignMembers: JSONObject
+  public init(geometry: Geometry)
+  public init(geometry: GeometryConvertible?)
+  public static func == (a: Feature, b: Feature) -> Swift.Bool
+}
+extension Feature : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
 }
 @objc public class PLPConfig : ObjectiveC.NSObject {
   @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode], conversionFactor: Swift.Double, usePDR: Swift.Bool = false, useMultilateration: Swift.Bool = false, useGPS: Swift.Bool = false)
   @objc deinit
 }
+public struct LineString : Swift.Equatable, ForeignMemberContainer {
+  public var coordinates: [LocationCoordinate2D]
+  public var foreignMembers: JSONObject
+  public init(_ coordinates: [LocationCoordinate2D])
+  public init(_ ring: Ring)
+  public static func == (a: LineString, b: LineString) -> Swift.Bool
+}
+extension LineString : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension LineString {
+  public func bezier(resolution: Swift.Int = 10000, sharpness: Swift.Double = 0.85) -> LineString?
+  public func trimmed(from startDistance: LocationDistance, to stopDistance: LocationDistance) -> LineString?
+  public func trimmed(from coordinate: LocationCoordinate2D, distance: LocationDistance) -> LineString?
+  public struct IndexedCoordinate {
+    public let coordinate: Swift.Array<LocationCoordinate2D>.Element
+    public let index: Swift.Array<LocationCoordinate2D>.Index
+    public let distance: LocationDistance
+  }
+  public func coordinateFromStart(distance: LocationDistance) -> LocationCoordinate2D?
+  public func indexedCoordinateFromStart(distance: LocationDistance) -> LineString.IndexedCoordinate?
+  public func distance(from start: LocationCoordinate2D? = nil, to end: LocationCoordinate2D? = nil) -> LocationDistance?
+  public func sliced(from start: LocationCoordinate2D? = nil, to end: LocationCoordinate2D? = nil) -> LineString?
+  public func closestCoordinate(to coordinate: LocationCoordinate2D) -> LineString.IndexedCoordinate?
+  public func simplified(tolerance: Swift.Double = 1.0, highestQuality: Swift.Bool = false) -> LineString
+  public mutating func simplify(tolerance: Swift.Double = 1.0, highestQuality: Swift.Bool = false)
+  public func intersections(with line: LineString) -> [LocationCoordinate2D]
+}
 @_inheritsConvenienceInitializers @objc public class PLPBeacon : ObjectiveC.NSObject {
+  public var avgRssi: Swift.Double
   public static func == (lhs: PLPBeaconNode, rhs: PLPBeacon) -> Swift.Bool
   @objc override dynamic public init()
   @objc deinit
+}
+extension PLPBeacon : Swift.Comparable {
+  public static func < (lhs: PLPBeacon, rhs: PLPBeacon) -> Swift.Bool
+  public static func == (lhs: PLPBeacon, rhs: PLPBeacon) -> Swift.Bool
 }
 @objc public protocol PoilabsPositioningDelegate {
   @objc func poilabsPositioning(didStatusChange status: PLPStatus, reason: PLPLocationStatusReason)
   @objc func poilabsPositioning(didFindBeacon uuid: Swift.String, major: Swift.String, minor: Swift.String)
   @objc func poilabsPositioning(didFail error: PoilabsPositioningError)
-  @objc func poilabsPositioning(didUpdateLocation location: PLPBeaconNode)
+  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, method: Swift.String, area: Swift.Double)
   @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
   @objc func poilabsPositioningDidStart()
 }
 @objc public class PLPositioning : ObjectiveC.NSObject {
   @objc public var delegate: PoilabsPositioningDelegate?
   @objc public init(config: PLPConfig)
-  @objc deinit
   @objc public func startPoilabsPositioning()
   @objc public func startPoilabsPositioning(with beaconList: [PLPBeaconNode])
   @objc public func stopPoilabsPositioning()
   @objc public func closeAllActions()
+  @objc deinit
 }
 @objc public enum PLPStatus : Swift.Int, Swift.RawRepresentable {
   case locationFound
@@ -73,6 +379,205 @@ import _Concurrency
     get
   }
 }
+public struct Ring {
+  public var coordinates: [LocationCoordinate2D]
+  public init(coordinates: [LocationCoordinate2D])
+  public var area: Swift.Double {
+    get
+  }
+  public func contains(_ coordinate: LocationCoordinate2D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+extension Ring : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct Polygon : Swift.Equatable, ForeignMemberContainer {
+  public var coordinates: [[LocationCoordinate2D]]
+  public var foreignMembers: JSONObject
+  public init(_ coordinates: [[LocationCoordinate2D]])
+  public init(outerRing: Ring, innerRings: [Ring] = [])
+  public init(center: LocationCoordinate2D, radius: LocationDistance, vertices: Swift.Int)
+  public static func == (a: Polygon, b: Polygon) -> Swift.Bool
+}
+extension Polygon : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension Polygon {
+  public var innerRings: [Ring] {
+    get
+  }
+  public var outerRing: Ring {
+    get
+  }
+  public var area: Swift.Double {
+    get
+  }
+  public func contains(_ coordinate: LocationCoordinate2D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+  public func smooth(iterations: Swift.Int = 3) -> Polygon
+  public func simplified(tolerance: Swift.Double = 1.0, highestQuality: Swift.Bool = false) -> Polygon
+  public mutating func simplify(tolerance: Swift.Double = 1.0, highestQuality: Swift.Bool = false)
+  public var center: LocationCoordinate2D? {
+    get
+  }
+  public var centroid: LocationCoordinate2D? {
+    get
+  }
+  public var centerOfMass: LocationCoordinate2D? {
+    get
+  }
+}
+public enum JSONValue : Swift.Hashable {
+  case string(_: Swift.String)
+  case number(_: Swift.Double)
+  case boolean(_: Swift.Bool)
+  case array(_: JSONArray)
+  case object(_: JSONObject)
+  public init(_ string: Swift.String)
+  public init<Source>(_ number: Source) where Source : Swift.BinaryInteger
+  public init<Source>(_ number: Source) where Source : Swift.BinaryFloatingPoint
+  public init(_ bool: Swift.Bool)
+  public init(_ values: JSONArray)
+  public init(_ properties: JSONObject)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: JSONValue, b: JSONValue) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension JSONValue : Swift.RawRepresentable {
+  public typealias RawValue = Any
+  public init?(rawValue: Any)
+  public var rawValue: Any {
+    get
+  }
+}
+public typealias JSONArray = [JSONValue?]
+extension Swift.Array : Swift.RawRepresentable where Element == JSONValue? {
+  public typealias RawValue = [Any?]
+  public init?(rawValue values: Swift.Array<Element>.RawValue)
+  public var rawValue: Swift.Array<JSONValue?>.RawValue {
+    get
+  }
+}
+public typealias JSONObject = [Swift.String : JSONValue?]
+extension Swift.Dictionary : Swift.RawRepresentable where Key == Swift.String, Value == JSONValue? {
+  public typealias RawValue = [Swift.String : Any?]
+  public init?(rawValue: Swift.Dictionary<Key, Value>.RawValue)
+  public var rawValue: Swift.Dictionary<Swift.String, JSONValue?>.RawValue {
+    get
+  }
+}
+extension JSONValue : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension JSONValue : Swift.ExpressibleByIntegerLiteral {
+  public init(integerLiteral value: Swift.IntegerLiteralType)
+  public typealias IntegerLiteralType = Swift.IntegerLiteralType
+}
+extension JSONValue : Swift.ExpressibleByFloatLiteral {
+  public init(floatLiteral value: Swift.FloatLiteralType)
+  public typealias FloatLiteralType = Swift.FloatLiteralType
+}
+extension JSONValue : Swift.ExpressibleByBooleanLiteral {
+  public init(booleanLiteral value: Swift.BooleanLiteralType)
+  public typealias BooleanLiteralType = Swift.BooleanLiteralType
+}
+extension JSONValue : Swift.ExpressibleByArrayLiteral {
+  public typealias ArrayLiteralElement = JSONValue?
+  public init(arrayLiteral elements: JSONValue.ArrayLiteralElement...)
+}
+extension JSONValue : Swift.ExpressibleByDictionaryLiteral {
+  public typealias Key = Swift.String
+  public typealias Value = JSONValue?
+  public init(dictionaryLiteral elements: (JSONValue.Key, JSONValue.Value)...)
+}
+extension JSONValue : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum Geometry : Swift.Equatable {
+  case point(_: Point)
+  case lineString(_: LineString)
+  case polygon(_: Polygon)
+  case multiPoint(_: MultiPoint)
+  case multiLineString(_: MultiLineString)
+  case multiPolygon(_: MultiPolygon)
+  case geometryCollection(_: GeometryCollection)
+  public init(_ geometry: GeometryConvertible)
+  public static func == (a: Geometry, b: Geometry) -> Swift.Bool
+}
+extension Geometry : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public protocol GeometryConvertible {
+  var geometry: Geometry { get }
+}
+extension Geometry : GeometryConvertible {
+  public var geometry: Geometry {
+    get
+  }
+}
+extension Point : GeometryConvertible {
+  public var geometry: Geometry {
+    get
+  }
+}
+extension LineString : GeometryConvertible {
+  public var geometry: Geometry {
+    get
+  }
+}
+extension Polygon : GeometryConvertible {
+  public var geometry: Geometry {
+    get
+  }
+}
+extension MultiPoint : GeometryConvertible {
+  public var geometry: Geometry {
+    get
+  }
+}
+extension MultiLineString : GeometryConvertible {
+  public var geometry: Geometry {
+    get
+  }
+}
+extension MultiPolygon : GeometryConvertible {
+  public var geometry: Geometry {
+    get
+  }
+}
+extension GeometryCollection : GeometryConvertible {
+  public var geometry: Geometry {
+    get
+  }
+}
+public struct Point : Swift.Equatable, ForeignMemberContainer {
+  public var coordinates: LocationCoordinate2D
+  public var foreignMembers: JSONObject
+  public init(_ coordinates: LocationCoordinate2D)
+  public static func == (a: Point, b: Point) -> Swift.Bool
+}
+extension Point : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct MultiLineString : Swift.Equatable, ForeignMemberContainer {
+  public var coordinates: [[LocationCoordinate2D]]
+  public var foreignMembers: JSONObject
+  public init(_ coordinates: [[LocationCoordinate2D]])
+  public init(_ polygon: Polygon)
+  public static func == (a: MultiLineString, b: MultiLineString) -> Swift.Bool
+}
+extension MultiLineString : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
 @objc public enum PoilabsPositioningError : Swift.Int, Swift.RawRepresentable {
   public typealias RawValue = Swift.String
   case emptyList
@@ -89,6 +594,9 @@ import _Concurrency
   }
   public init?(rawValue: PoilabsPositioningError.RawValue)
 }
+extension HeadingMode : Swift.Equatable {}
+extension HeadingMode : Swift.Hashable {}
+extension HeadingMode : Swift.RawRepresentable {}
 extension PLPStatus : Swift.Equatable {}
 extension PLPStatus : Swift.Hashable {}
 extension PLPLocationStatusReason : Swift.Equatable {}

@@ -188,6 +188,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #if __has_warning("-Watimport-in-framework-header")
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
+@import CoreLocation;
 @import Foundation;
 @import ObjectiveC;
 #endif
@@ -208,11 +209,17 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 
 
+typedef SWIFT_ENUM(NSInteger, HeadingMode, open) {
+  HeadingModeTrueHeading = 0,
+  HeadingModeComputedHeading = 1,
+};
+
 
 SWIFT_CLASS("_TtC18PoilabsPositioning9PLPBeacon")
 @interface PLPBeacon : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
 
 
 @class NSString;
@@ -244,6 +251,25 @@ SWIFT_CLASS("_TtC18PoilabsPositioning9PLPConfig")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+@class NSDictionary;
+
+SWIFT_CLASS("_TtC18PoilabsPositioning20PLPGeoJSONMapManager")
+@interface PLPGeoJSONMapManager : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) PLPGeoJSONMapManager * _Nonnull shared;)
++ (PLPGeoJSONMapManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
++ (void)setShared:(PLPGeoJSONMapManager * _Nonnull)value;
+- (void)setWalkwaysWithDict:(NSDictionary * _Nullable)dict;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC18PoilabsPositioning11PLPLocation")
+@interface PLPLocation : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 
 typedef SWIFT_ENUM(NSInteger, PLPLocationStatusReason, open) {
   PLPLocationStatusReasonMissingPermission = 0,
@@ -278,6 +304,19 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 
 
 
+
+@class CLLocation;
+
+SWIFT_CLASS("_TtC18PoilabsPositioning14PLRoutingUtils")
+@interface PLRoutingUtils : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) PLRoutingUtils * _Nonnull shared;)
++ (PLRoutingUtils * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
++ (void)setShared:(PLRoutingUtils * _Nonnull)value;
+- (CLLocationCoordinate2D)getNearestPointOnRouteWithLocation:(CLLocationCoordinate2D)location route:(NSArray<CLLocation *> * _Nonnull)route SWIFT_WARN_UNUSED_RESULT;
+- (double)distanceToRouteWithLocation:(CLLocationCoordinate2D)location route:(NSArray<CLLocation *> * _Nonnull)route SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 enum PoilabsPositioningError : NSInteger;
 @class CLHeading;
 
@@ -286,7 +325,7 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidStatusChange:(enum PLPStatus)status reason:(enum PLPLocationStatusReason)reason;
 - (void)poilabsPositioningWithDidFindBeacon:(NSString * _Nonnull)uuid major:(NSString * _Nonnull)major minor:(NSString * _Nonnull)minor;
 - (void)poilabsPositioningWithDidFail:(enum PoilabsPositioningError)error;
-- (void)poilabsPositioningWithDidUpdateLocation:(PLPBeaconNode * _Nonnull)location;
+- (void)poilabsPositioningWithDidUpdateLocation:(CLLocationCoordinate2D)location method:(NSString * _Nonnull)method area:(double)area;
 - (void)poilabsPositioningWithDidUpdateHeading:(CLHeading * _Nonnull)heading;
 - (void)poilabsPositioningDidStart;
 @end
