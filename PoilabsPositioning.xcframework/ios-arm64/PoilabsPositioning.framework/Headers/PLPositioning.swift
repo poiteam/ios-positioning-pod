@@ -22,8 +22,7 @@ public class PLPositioning: NSObject {
     
     private var timer: Timer?
     private var locationNotFoundCounter = 0
-    private var lastCalculatedLocation: PLPBeaconNode? = nil
-    private var lastPdrLocation: CLLocationCoordinate2D? = nil
+    private var lastLocation: CLLocationCoordinate2D? = nil
     private var lastMultiLocation: CLLocationCoordinate2D? = nil
     private var accuracy = 3.0
     
@@ -95,7 +94,7 @@ public class PLPositioning: NSObject {
 extension PLPositioning {
     private func startTimer() {
         let locationUpdateInterval = self.config.locationUpdateInterval
-        timer = Timer.scheduledTimer(timeInterval: locationUpdateInterval, target: self, selector: #selector(tickOnlocationUpdateInterval), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: locationUpdateInterval*5, target: self, selector: #selector(tickOnlocationUpdateInterval), userInfo: nil, repeats: false)
     }
     
     private func stopTimer() {
@@ -104,29 +103,20 @@ extension PLPositioning {
     }
     
     @objc func tickOnlocationUpdateInterval() {
-        guard lastCalculatedLocation != nil else {
-            self.locationNotFoundCounter += 1
-            PoilabsPositioningUtils.logDebugInformations(log: "No location calculated", priority: 20)
-            if self.locationNotFoundCounter >= 5 {
-                delegate?.poilabsPositioning(didFail: .beaconNotFound)
-                delegate?.poilabsPositioning(didStatusChange: .locationNotFound, reason: .beaconNotFound)
-            }
-            return
+        if lastLocation == nil {
+            delegate?.poilabsPositioning(didFail: .beaconNotFound)
+            delegate?.poilabsPositioning(didStatusChange: .locationNotFound, reason: .beaconNotFound)
         }
-        self.locationNotFoundCounter = 0
-        PoilabsPositioningUtils.logDebugInformations(log: "poilabsPositioning(didUpdateLocation) \(Date()) ", priority: 10)
+        stopTimer()
     }
 }
 
 
-extension PLPositioning: PLPBeaconPositionFinderDelegate {
-    func beaconPositionFinder(possibleLocations: [PLPLocation]) {
-
-    }
-    
+extension PLPositioning: PLPBeaconPositionFinderDelegate {    
     func beaconPositionFinder(didFindLocation location: PLPLocation, area: Double) {
         let locationCoordinates = location.getLocation()
         self.accuracy = area
+        self.lastLocation = locationCoordinates
         delegate?.poilabsPositioning(didUpdateLocation: locationCoordinates, area: area)
         pdrManager.startPDR(startCoordinate: locationCoordinates)
     }
@@ -159,7 +149,6 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
             delegate?.poilabsPositioning(didStatusChange: .locationNotFound, reason: .noReason)
         case .beaconNotFound:
             PoilabsPositioningUtils.logDebugInformations(log: "beacon not found", priority: 20)
-            lastCalculatedLocation = nil
         case .bluetoothNotAvaible:
             delegate?.poilabsPositioning(didFail: .bluetoothNotAvaible)
             delegate?.poilabsPositioning(didStatusChange: .locationNotFound, reason: .missingPermission)
@@ -179,7 +168,7 @@ extension PLPositioning: PLPPDRManagerDelegate {
     func plpPdrManager(newLocationCalculated location: CLLocationCoordinate2D) {
         self.accuracy += 0.1
         delegate?.poilabsPositioning(didUpdateLocation: location, area: self.accuracy)
-        self.lastPdrLocation = location
+        self.lastLocation = location
         PLPIndoorPositioning.shared.setLastPdrLocation(coordinates: location)
     }
 }
