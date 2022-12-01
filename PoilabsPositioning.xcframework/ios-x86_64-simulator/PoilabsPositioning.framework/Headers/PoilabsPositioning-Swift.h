@@ -325,7 +325,7 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidStatusChange:(enum PLPStatus)status reason:(enum PLPLocationStatusReason)reason;
 - (void)poilabsPositioningWithDidFindBeacon:(NSString * _Nonnull)uuid major:(NSString * _Nonnull)major minor:(NSString * _Nonnull)minor;
 - (void)poilabsPositioningWithDidFail:(enum PoilabsPositioningError)error;
-- (void)poilabsPositioningWithDidUpdateLocation:(CLLocationCoordinate2D)location method:(NSString * _Nonnull)method area:(double)area;
+- (void)poilabsPositioningWithDidUpdateLocation:(CLLocationCoordinate2D)location area:(double)area;
 - (void)poilabsPositioningWithDidUpdateHeading:(CLHeading * _Nonnull)heading;
 - (void)poilabsPositioningDidStart;
 @end

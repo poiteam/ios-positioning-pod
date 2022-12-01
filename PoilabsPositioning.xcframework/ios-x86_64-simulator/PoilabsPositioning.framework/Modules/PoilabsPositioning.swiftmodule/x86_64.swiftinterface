@@ -341,7 +341,7 @@ extension PLPBeacon : Swift.Comparable {
   @objc func poilabsPositioning(didStatusChange status: PLPStatus, reason: PLPLocationStatusReason)
   @objc func poilabsPositioning(didFindBeacon uuid: Swift.String, major: Swift.String, minor: Swift.String)
   @objc func poilabsPositioning(didFail error: PoilabsPositioningError)
-  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, method: Swift.String, area: Swift.Double)
+  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, area: Swift.Double)
   @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
   @objc func poilabsPositioningDidStart()
 }
