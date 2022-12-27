@@ -1,0 +1,605 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name PoilabsPositioning
+import Accelerate
+import CoreLocation
+import CoreMotion
+import Foundation
+import Accelerate.vecLib.LinearAlgebra
+@_exported import PoilabsPositioning
+import Swift
+import _Concurrency
+@objc public enum HeadingMode : Swift.Int {
+  case trueHeading, computedHeading
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct GeometryCollection : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var geometries: [PoilabsPositioning.Geometry]
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public init(geometries: [PoilabsPositioning.Geometry])
+  public init(_ multiPolygon: PoilabsPositioning.MultiPolygon)
+  public static func == (a: PoilabsPositioning.GeometryCollection, b: PoilabsPositioning.GeometryCollection) -> Swift.Bool
+}
+extension PoilabsPositioning.GeometryCollection : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class PLPLocation : ObjectiveC.NSObject {
+  public func getLocation() -> CoreLocation.CLLocationCoordinate2D
+  @objc deinit
+}
+extension Swift.Double {
+  @inlinable public static var VALUE_NOT_SET: Swift.Double {
+    get { return 0.0 }
+  }
+  @inlinable public static var EARTH_RADIUS: Swift.Double {
+    get { return 6371 }
+  }
+  @inlinable public static var HUMAN_WALKING_SPEED: Swift.Double {
+    get { return 1.388889 }
+  }
+  @inlinable public static var ROOT_MEAN_SQUARE_NOT_SET: Swift.Double {
+    get { return -1 }
+  }
+  @inlinable public static var PATH_LOSS_PARAMETER_INDOOR: Swift.Double {
+    get { return 2.2 }
+  }
+}
+extension Swift.Int {
+  @inlinable public static var RSSI_At_1_METER: Swift.Int {
+    get { return -60 }
+  }
+  @inlinable public static var UPDATE_INTERVAL_IMMEDIATE: Swift.Int {
+    get { return 3 }
+  }
+  @inlinable public static var UPDATE_INTERVAL_FAST: Swift.Int {
+    get { return 100 }
+  }
+  @inlinable public static var UPDATE_INTERVAL_MEDIUM: Swift.Int {
+    get { return 500 }
+  }
+  @inlinable public static var UPDATE_INTERVAL_SLOW: Swift.Int {
+    get { return 3000 }
+  }
+  @inlinable public static var ROOT_MEAN_SQUARE_THRESHOLD_STRICT: Swift.Int {
+    get { return 5 }
+  }
+  @inlinable public static var ROOT_MEAN_SQUARE_THRESHOLD_MEDIUM: Swift.Int {
+    get { return 10 }
+  }
+  @inlinable public static var ROOT_MEAN_SQUARE_THRESHOLD_LIGHT: Swift.Int {
+    get { return 25 }
+  }
+  @inlinable public static var MINIMUM_BEACON_COUNT: Swift.Int {
+    get { return 3 }
+  }
+  @inlinable public static var OPTIMUM_BEACON_SELECTION_COUNT: Swift.Int {
+    get { return 4 }
+  }
+  @inlinable public static var MAXIMUM_BEACON_COUNT: Swift.Int {
+    get { return 10 }
+  }
+  @inlinable public static var MAXIMUM_MOVEMENT_SPEED_NOT_SET: Swift.Int {
+    get { return -1 }
+  }
+}
+public typealias LineSegment = (PoilabsPositioning.LocationCoordinate2D, PoilabsPositioning.LocationCoordinate2D)
+public func intersection(_ line1: PoilabsPositioning.LineSegment, _ line2: PoilabsPositioning.LineSegment) -> PoilabsPositioning.LocationCoordinate2D?
+public func mid(_ coord1: PoilabsPositioning.LocationCoordinate2D, _ coord2: PoilabsPositioning.LocationCoordinate2D) -> PoilabsPositioning.LocationCoordinate2D
+public struct FeatureCollection : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var features: [PoilabsPositioning.Feature]
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public init(features: [PoilabsPositioning.Feature])
+  public static func == (a: PoilabsPositioning.FeatureCollection, b: PoilabsPositioning.FeatureCollection) -> Swift.Bool
+}
+extension PoilabsPositioning.FeatureCollection : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum GeoJSONObject : Swift.Equatable {
+  case geometry(_: PoilabsPositioning.Geometry)
+  case feature(_: PoilabsPositioning.Feature)
+  case featureCollection(_: PoilabsPositioning.FeatureCollection)
+  public init(_ object: PoilabsPositioning.GeoJSONObjectConvertible)
+  public static func == (a: PoilabsPositioning.GeoJSONObject, b: PoilabsPositioning.GeoJSONObject) -> Swift.Bool
+}
+extension PoilabsPositioning.GeoJSONObject : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public protocol GeoJSONObjectConvertible {
+  var geoJSONObject: PoilabsPositioning.GeoJSONObject { get }
+}
+extension PoilabsPositioning.GeoJSONObject : PoilabsPositioning.GeoJSONObjectConvertible {
+  public var geoJSONObject: PoilabsPositioning.GeoJSONObject {
+    get
+  }
+}
+extension PoilabsPositioning.Geometry : PoilabsPositioning.GeoJSONObjectConvertible {
+  public var geoJSONObject: PoilabsPositioning.GeoJSONObject {
+    get
+  }
+}
+extension PoilabsPositioning.Feature : PoilabsPositioning.GeoJSONObjectConvertible {
+  public var geoJSONObject: PoilabsPositioning.GeoJSONObject {
+    get
+  }
+}
+extension PoilabsPositioning.FeatureCollection : PoilabsPositioning.GeoJSONObjectConvertible {
+  public var geoJSONObject: PoilabsPositioning.GeoJSONObject {
+    get
+  }
+}
+public protocol ForeignMemberContainer {
+  var foreignMembers: PoilabsPositioning.JSONObject { get set }
+}
+extension Swift.CodingUserInfoKey {
+  public static let includesForeignMembers: Swift.CodingUserInfoKey
+}
+public struct BoundingBox {
+  public var southWest: PoilabsPositioning.LocationCoordinate2D
+  public var northEast: PoilabsPositioning.LocationCoordinate2D
+  public init?(from coordinates: [PoilabsPositioning.LocationCoordinate2D]?)
+  public init(southWest: PoilabsPositioning.LocationCoordinate2D, northEast: PoilabsPositioning.LocationCoordinate2D)
+  public func contains(_ coordinate: PoilabsPositioning.LocationCoordinate2D, ignoreBoundary: Swift.Bool = true) -> Swift.Bool
+}
+extension PoilabsPositioning.BoundingBox : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: PoilabsPositioning.BoundingBox, b: PoilabsPositioning.BoundingBox) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension PoilabsPositioning.BoundingBox : Swift.Codable {
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum FeatureIdentifier : Swift.Hashable {
+  case string(_: Swift.String)
+  case number(_: Swift.Double)
+  public init(_ string: Swift.String)
+  public init<Source>(_ number: Source) where Source : Swift.BinaryInteger
+  public init<Source>(_ number: Source) where Source : Swift.BinaryFloatingPoint
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: PoilabsPositioning.FeatureIdentifier, b: PoilabsPositioning.FeatureIdentifier) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension PoilabsPositioning.FeatureIdentifier : Swift.RawRepresentable {
+  public typealias RawValue = Any
+  public init?(rawValue: Any)
+  public var rawValue: Any {
+    get
+  }
+}
+extension PoilabsPositioning.FeatureIdentifier : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension PoilabsPositioning.FeatureIdentifier : Swift.ExpressibleByIntegerLiteral {
+  public init(integerLiteral value: Swift.IntegerLiteralType)
+  public typealias IntegerLiteralType = Swift.IntegerLiteralType
+}
+extension PoilabsPositioning.FeatureIdentifier : Swift.ExpressibleByFloatLiteral {
+  public init(floatLiteral value: Swift.FloatLiteralType)
+  public typealias FloatLiteralType = Swift.FloatLiteralType
+}
+extension PoilabsPositioning.FeatureIdentifier : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc public class PLPBeaconNode : ObjectiveC.NSObject, Swift.Codable {
+  final public let minor: Swift.Int
+  @objc final public let lat: Swift.Double
+  @objc final public let lon: Swift.Double
+  @objc final public let floor: Swift.Int
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc public init(major: Swift.Int, minor: Swift.Int, txPower: Swift.Int, uuid: Swift.String, lat: Swift.Double, lon: Swift.Double, floor: Swift.Int)
+  @objc deinit
+  public func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
+}
+public struct MultiPoint : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var coordinates: [PoilabsPositioning.LocationCoordinate2D]
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public init(_ coordinates: [PoilabsPositioning.LocationCoordinate2D])
+  public static func == (a: PoilabsPositioning.MultiPoint, b: PoilabsPositioning.MultiPoint) -> Swift.Bool
+}
+extension PoilabsPositioning.MultiPoint : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct MultiPolygon : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var coordinates: [[[PoilabsPositioning.LocationCoordinate2D]]]
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public var polygons: [PoilabsPositioning.Polygon] {
+    get
+  }
+  public init(_ coordinates: [[[PoilabsPositioning.LocationCoordinate2D]]])
+  public init(_ polygons: [PoilabsPositioning.Polygon])
+  public static func == (a: PoilabsPositioning.MultiPolygon, b: PoilabsPositioning.MultiPolygon) -> Swift.Bool
+}
+extension PoilabsPositioning.MultiPolygon : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension PoilabsPositioning.MultiPolygon {
+  public func contains(_ coordinate: PoilabsPositioning.LocationCoordinate2D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+@objc public class PLPBeaconFilter : ObjectiveC.NSObject {
+  @objc public init?(uuid: Swift.String, majors: [Swift.Int], isEncrypted: Swift.Bool)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class PLRoutingUtils : ObjectiveC.NSObject {
+  @objc public static var shared: PoilabsPositioning.PLRoutingUtils
+  @objc public func getNearestPointOnRoute(location: CoreLocation.CLLocationCoordinate2D, route: [CoreLocation.CLLocation]) -> CoreLocation.CLLocationCoordinate2D
+  @objc public func distanceToRoute(location: CoreLocation.CLLocationCoordinate2D, route: [CoreLocation.CLLocation]) -> Swift.Double
+  @objc override dynamic public init()
+  @objc deinit
+}
+public typealias LocationDirection = CoreLocation.CLLocationDirection
+public typealias LocationDistance = CoreLocation.CLLocationDistance
+public typealias LocationDegrees = CoreLocation.CLLocationDegrees
+public typealias LocationCoordinate2D = CoreLocation.CLLocationCoordinate2D
+extension Swift.Double {
+  public func wrap(min minimumValue: PoilabsPositioning.LocationDirection, max maximumValue: PoilabsPositioning.LocationDirection) -> PoilabsPositioning.LocationDirection
+  public func difference(from beta: PoilabsPositioning.LocationDirection) -> PoilabsPositioning.LocationDirection
+}
+extension Swift.Double {
+  public func toRadians() -> PoilabsPositioning.LocationRadians
+  public func toDegrees() -> PoilabsPositioning.LocationDirection
+}
+extension CoreLocation.CLLocationCoordinate2D : Swift.Equatable {
+  public init(_ radianCoordinate: PoilabsPositioning.RadianCoordinate2D)
+  public static func == (lhs: PoilabsPositioning.LocationCoordinate2D, rhs: PoilabsPositioning.LocationCoordinate2D) -> Swift.Bool
+  public func direction(to coordinate: PoilabsPositioning.LocationCoordinate2D) -> PoilabsPositioning.LocationDirection
+  public func coordinate(at distance: PoilabsPositioning.LocationDistance, facing direction: PoilabsPositioning.LocationDirection) -> PoilabsPositioning.LocationCoordinate2D
+  public func coordinate(at distance: PoilabsPositioning.LocationDistance, facing direction: Foundation.Measurement<Foundation.UnitAngle>) -> PoilabsPositioning.LocationCoordinate2D
+  public func distance(to coordinate: PoilabsPositioning.LocationCoordinate2D) -> PoilabsPositioning.LocationDistance
+}
+@_inheritsConvenienceInitializers @objc public class PLPGeoJSONMapManager : ObjectiveC.NSObject {
+  @objc public static var shared: PoilabsPositioning.PLPGeoJSONMapManager
+  @objc public func setWalkways(dict: Foundation.NSDictionary?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public typealias LocationRadians = Swift.Double
+public typealias RadianDistance = Swift.Double
+public struct RadianCoordinate2D {
+  public init(latitude: PoilabsPositioning.LocationRadians, longitude: PoilabsPositioning.LocationRadians)
+  public init(_ degreeCoordinate: PoilabsPositioning.LocationCoordinate2D)
+  public func direction(to coordinate: PoilabsPositioning.RadianCoordinate2D) -> Foundation.Measurement<Foundation.UnitAngle>
+  public func coordinate(at distance: PoilabsPositioning.RadianDistance, facing direction: Foundation.Measurement<Foundation.UnitAngle>) -> PoilabsPositioning.RadianCoordinate2D
+  public func distance(to coordinate: PoilabsPositioning.RadianCoordinate2D) -> PoilabsPositioning.RadianDistance
+}
+public struct Feature : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var identifier: PoilabsPositioning.FeatureIdentifier?
+  public var properties: PoilabsPositioning.JSONObject?
+  public var geometry: PoilabsPositioning.Geometry?
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public init(geometry: PoilabsPositioning.Geometry)
+  public init(geometry: PoilabsPositioning.GeometryConvertible?)
+  public static func == (a: PoilabsPositioning.Feature, b: PoilabsPositioning.Feature) -> Swift.Bool
+}
+extension PoilabsPositioning.Feature : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc public class PLPConfig : ObjectiveC.NSObject {
+  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PoilabsPositioning.PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PoilabsPositioning.PLPBeaconNode], conversionFactor: Swift.Double, usePDR: Swift.Bool = false, useMultilateration: Swift.Bool = false, useGPS: Swift.Bool = false)
+  @objc deinit
+}
+public struct LineString : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var coordinates: [PoilabsPositioning.LocationCoordinate2D]
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public init(_ coordinates: [PoilabsPositioning.LocationCoordinate2D])
+  public init(_ ring: PoilabsPositioning.Ring)
+  public static func == (a: PoilabsPositioning.LineString, b: PoilabsPositioning.LineString) -> Swift.Bool
+}
+extension PoilabsPositioning.LineString : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension PoilabsPositioning.LineString {
+  public func bezier(resolution: Swift.Int = 10000, sharpness: Swift.Double = 0.85) -> PoilabsPositioning.LineString?
+  public func trimmed(from startDistance: PoilabsPositioning.LocationDistance, to stopDistance: PoilabsPositioning.LocationDistance) -> PoilabsPositioning.LineString?
+  public func trimmed(from coordinate: PoilabsPositioning.LocationCoordinate2D, distance: PoilabsPositioning.LocationDistance) -> PoilabsPositioning.LineString?
+  public struct IndexedCoordinate {
+    public let coordinate: Swift.Array<PoilabsPositioning.LocationCoordinate2D>.Element
+    public let index: Swift.Array<PoilabsPositioning.LocationCoordinate2D>.Index
+    public let distance: PoilabsPositioning.LocationDistance
+  }
+  public func coordinateFromStart(distance: PoilabsPositioning.LocationDistance) -> PoilabsPositioning.LocationCoordinate2D?
+  public func indexedCoordinateFromStart(distance: PoilabsPositioning.LocationDistance) -> PoilabsPositioning.LineString.IndexedCoordinate?
+  public func distance(from start: PoilabsPositioning.LocationCoordinate2D? = nil, to end: PoilabsPositioning.LocationCoordinate2D? = nil) -> PoilabsPositioning.LocationDistance?
+  public func sliced(from start: PoilabsPositioning.LocationCoordinate2D? = nil, to end: PoilabsPositioning.LocationCoordinate2D? = nil) -> PoilabsPositioning.LineString?
+  public func closestCoordinate(to coordinate: PoilabsPositioning.LocationCoordinate2D) -> PoilabsPositioning.LineString.IndexedCoordinate?
+  public func simplified(tolerance: Swift.Double = 1.0, highestQuality: Swift.Bool = false) -> PoilabsPositioning.LineString
+  public mutating func simplify(tolerance: Swift.Double = 1.0, highestQuality: Swift.Bool = false)
+  public func intersections(with line: PoilabsPositioning.LineString) -> [PoilabsPositioning.LocationCoordinate2D]
+}
+@_inheritsConvenienceInitializers @objc public class PLPBeacon : ObjectiveC.NSObject {
+  public var avgRssi: Swift.Double
+  public static func == (lhs: PoilabsPositioning.PLPBeaconNode, rhs: PoilabsPositioning.PLPBeacon) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension PoilabsPositioning.PLPBeacon : Swift.Comparable {
+  public static func < (lhs: PoilabsPositioning.PLPBeacon, rhs: PoilabsPositioning.PLPBeacon) -> Swift.Bool
+  public static func == (lhs: PoilabsPositioning.PLPBeacon, rhs: PoilabsPositioning.PLPBeacon) -> Swift.Bool
+}
+@objc public protocol PoilabsPositioningDelegate {
+  @objc func poilabsPositioning(didStatusChange status: PoilabsPositioning.PLPStatus, reason: PoilabsPositioning.PLPLocationStatusReason)
+  @objc func poilabsPositioning(didFindBeacon uuid: Swift.String, major: Swift.String, minor: Swift.String)
+  @objc func poilabsPositioning(didFail error: PoilabsPositioning.PoilabsPositioningError)
+  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, area: Swift.Double)
+  @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
+  @objc func poilabsPositioningDidStart()
+}
+@objc public class PLPositioning : ObjectiveC.NSObject {
+  @objc public var delegate: PoilabsPositioning.PoilabsPositioningDelegate?
+  @objc public init(config: PoilabsPositioning.PLPConfig)
+  @objc public func startPoilabsPositioning()
+  @objc public func startPoilabsPositioning(with beaconList: [PoilabsPositioning.PLPBeaconNode])
+  @objc public func stopPoilabsPositioning()
+  @objc public func closeAllActions()
+  @objc deinit
+}
+@objc public enum PLPStatus : Swift.Int, Swift.RawRepresentable {
+  case locationFound
+  case waitingForLocation
+  case locationNotFound
+  case locationingStoped
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum PLPLocationStatusReason : Swift.Int, Swift.RawRepresentable {
+  case missingPermission
+  case timeOut
+  case sensorError
+  case emptyList
+  case invalidUUID
+  case beaconNotFound
+  case noReason
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct Ring {
+  public var coordinates: [PoilabsPositioning.LocationCoordinate2D]
+  public init(coordinates: [PoilabsPositioning.LocationCoordinate2D])
+  public var area: Swift.Double {
+    get
+  }
+  public func contains(_ coordinate: PoilabsPositioning.LocationCoordinate2D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+extension PoilabsPositioning.Ring : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct Polygon : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var coordinates: [[PoilabsPositioning.LocationCoordinate2D]]
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public init(_ coordinates: [[PoilabsPositioning.LocationCoordinate2D]])
+  public init(outerRing: PoilabsPositioning.Ring, innerRings: [PoilabsPositioning.Ring] = [])
+  public init(center: PoilabsPositioning.LocationCoordinate2D, radius: PoilabsPositioning.LocationDistance, vertices: Swift.Int)
+  public static func == (a: PoilabsPositioning.Polygon, b: PoilabsPositioning.Polygon) -> Swift.Bool
+}
+extension PoilabsPositioning.Polygon : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension PoilabsPositioning.Polygon {
+  public var innerRings: [PoilabsPositioning.Ring] {
+    get
+  }
+  public var outerRing: PoilabsPositioning.Ring {
+    get
+  }
+  public var area: Swift.Double {
+    get
+  }
+  public func contains(_ coordinate: PoilabsPositioning.LocationCoordinate2D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+  public func smooth(iterations: Swift.Int = 3) -> PoilabsPositioning.Polygon
+  public func simplified(tolerance: Swift.Double = 1.0, highestQuality: Swift.Bool = false) -> PoilabsPositioning.Polygon
+  public mutating func simplify(tolerance: Swift.Double = 1.0, highestQuality: Swift.Bool = false)
+  public var center: PoilabsPositioning.LocationCoordinate2D? {
+    get
+  }
+  public var centroid: PoilabsPositioning.LocationCoordinate2D? {
+    get
+  }
+  public var centerOfMass: PoilabsPositioning.LocationCoordinate2D? {
+    get
+  }
+}
+public enum JSONValue : Swift.Hashable {
+  case string(_: Swift.String)
+  case number(_: Swift.Double)
+  case boolean(_: Swift.Bool)
+  case array(_: PoilabsPositioning.JSONArray)
+  case object(_: PoilabsPositioning.JSONObject)
+  public init(_ string: Swift.String)
+  public init<Source>(_ number: Source) where Source : Swift.BinaryInteger
+  public init<Source>(_ number: Source) where Source : Swift.BinaryFloatingPoint
+  public init(_ bool: Swift.Bool)
+  public init(_ values: PoilabsPositioning.JSONArray)
+  public init(_ properties: PoilabsPositioning.JSONObject)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: PoilabsPositioning.JSONValue, b: PoilabsPositioning.JSONValue) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension PoilabsPositioning.JSONValue : Swift.RawRepresentable {
+  public typealias RawValue = Any
+  public init?(rawValue: Any)
+  public var rawValue: Any {
+    get
+  }
+}
+public typealias JSONArray = [PoilabsPositioning.JSONValue?]
+extension Swift.Array : Swift.RawRepresentable where Element == PoilabsPositioning.JSONValue? {
+  public typealias RawValue = [Any?]
+  public init?(rawValue values: Swift.Array<Element>.RawValue)
+  public var rawValue: Swift.Array<PoilabsPositioning.JSONValue?>.RawValue {
+    get
+  }
+}
+public typealias JSONObject = [Swift.String : PoilabsPositioning.JSONValue?]
+extension Swift.Dictionary : Swift.RawRepresentable where Key == Swift.String, Value == PoilabsPositioning.JSONValue? {
+  public typealias RawValue = [Swift.String : Any?]
+  public init?(rawValue: Swift.Dictionary<Key, Value>.RawValue)
+  public var rawValue: Swift.Dictionary<Swift.String, PoilabsPositioning.JSONValue?>.RawValue {
+    get
+  }
+}
+extension PoilabsPositioning.JSONValue : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension PoilabsPositioning.JSONValue : Swift.ExpressibleByIntegerLiteral {
+  public init(integerLiteral value: Swift.IntegerLiteralType)
+  public typealias IntegerLiteralType = Swift.IntegerLiteralType
+}
+extension PoilabsPositioning.JSONValue : Swift.ExpressibleByFloatLiteral {
+  public init(floatLiteral value: Swift.FloatLiteralType)
+  public typealias FloatLiteralType = Swift.FloatLiteralType
+}
+extension PoilabsPositioning.JSONValue : Swift.ExpressibleByBooleanLiteral {
+  public init(booleanLiteral value: Swift.BooleanLiteralType)
+  public typealias BooleanLiteralType = Swift.BooleanLiteralType
+}
+extension PoilabsPositioning.JSONValue : Swift.ExpressibleByArrayLiteral {
+  public typealias ArrayLiteralElement = PoilabsPositioning.JSONValue?
+  public init(arrayLiteral elements: PoilabsPositioning.JSONValue.ArrayLiteralElement...)
+}
+extension PoilabsPositioning.JSONValue : Swift.ExpressibleByDictionaryLiteral {
+  public typealias Key = Swift.String
+  public typealias Value = PoilabsPositioning.JSONValue?
+  public init(dictionaryLiteral elements: (PoilabsPositioning.JSONValue.Key, PoilabsPositioning.JSONValue.Value)...)
+}
+extension PoilabsPositioning.JSONValue : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum Geometry : Swift.Equatable {
+  case point(_: PoilabsPositioning.Point)
+  case lineString(_: PoilabsPositioning.LineString)
+  case polygon(_: PoilabsPositioning.Polygon)
+  case multiPoint(_: PoilabsPositioning.MultiPoint)
+  case multiLineString(_: PoilabsPositioning.MultiLineString)
+  case multiPolygon(_: PoilabsPositioning.MultiPolygon)
+  case geometryCollection(_: PoilabsPositioning.GeometryCollection)
+  public init(_ geometry: PoilabsPositioning.GeometryConvertible)
+  public static func == (a: PoilabsPositioning.Geometry, b: PoilabsPositioning.Geometry) -> Swift.Bool
+}
+extension PoilabsPositioning.Geometry : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public protocol GeometryConvertible {
+  var geometry: PoilabsPositioning.Geometry { get }
+}
+extension PoilabsPositioning.Geometry : PoilabsPositioning.GeometryConvertible {
+  public var geometry: PoilabsPositioning.Geometry {
+    get
+  }
+}
+extension PoilabsPositioning.Point : PoilabsPositioning.GeometryConvertible {
+  public var geometry: PoilabsPositioning.Geometry {
+    get
+  }
+}
+extension PoilabsPositioning.LineString : PoilabsPositioning.GeometryConvertible {
+  public var geometry: PoilabsPositioning.Geometry {
+    get
+  }
+}
+extension PoilabsPositioning.Polygon : PoilabsPositioning.GeometryConvertible {
+  public var geometry: PoilabsPositioning.Geometry {
+    get
+  }
+}
+extension PoilabsPositioning.MultiPoint : PoilabsPositioning.GeometryConvertible {
+  public var geometry: PoilabsPositioning.Geometry {
+    get
+  }
+}
+extension PoilabsPositioning.MultiLineString : PoilabsPositioning.GeometryConvertible {
+  public var geometry: PoilabsPositioning.Geometry {
+    get
+  }
+}
+extension PoilabsPositioning.MultiPolygon : PoilabsPositioning.GeometryConvertible {
+  public var geometry: PoilabsPositioning.Geometry {
+    get
+  }
+}
+extension PoilabsPositioning.GeometryCollection : PoilabsPositioning.GeometryConvertible {
+  public var geometry: PoilabsPositioning.Geometry {
+    get
+  }
+}
+public struct Point : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var coordinates: PoilabsPositioning.LocationCoordinate2D
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public init(_ coordinates: PoilabsPositioning.LocationCoordinate2D)
+  public static func == (a: PoilabsPositioning.Point, b: PoilabsPositioning.Point) -> Swift.Bool
+}
+extension PoilabsPositioning.Point : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct MultiLineString : Swift.Equatable, PoilabsPositioning.ForeignMemberContainer {
+  public var coordinates: [[PoilabsPositioning.LocationCoordinate2D]]
+  public var foreignMembers: PoilabsPositioning.JSONObject
+  public init(_ coordinates: [[PoilabsPositioning.LocationCoordinate2D]])
+  public init(_ polygon: PoilabsPositioning.Polygon)
+  public static func == (a: PoilabsPositioning.MultiLineString, b: PoilabsPositioning.MultiLineString) -> Swift.Bool
+}
+extension PoilabsPositioning.MultiLineString : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc public enum PoilabsPositioningError : Swift.Int, Swift.RawRepresentable {
+  public typealias RawValue = Swift.String
+  case emptyList
+  case invalidUUID
+  case didFailWithError
+  case monitoringDidFailFor
+  case didFailRangingFor
+  case timeIntervalInvalid
+  case beaconNotFound
+  case bluetoothNotAvaible
+  case locationNotAvaible
+  public var rawValue: PoilabsPositioning.PoilabsPositioningError.RawValue {
+    get
+  }
+  public init?(rawValue: PoilabsPositioning.PoilabsPositioningError.RawValue)
+}
+extension PoilabsPositioning.HeadingMode : Swift.Equatable {}
+extension PoilabsPositioning.HeadingMode : Swift.Hashable {}
+extension PoilabsPositioning.HeadingMode : Swift.RawRepresentable {}
+extension PoilabsPositioning.PLPStatus : Swift.Equatable {}
+extension PoilabsPositioning.PLPStatus : Swift.Hashable {}
+extension PoilabsPositioning.PLPLocationStatusReason : Swift.Equatable {}
+extension PoilabsPositioning.PLPLocationStatusReason : Swift.Hashable {}
+extension PoilabsPositioning.PoilabsPositioningError : Swift.Equatable {}
+extension PoilabsPositioning.PoilabsPositioningError : Swift.Hashable {}
