@@ -78,7 +78,10 @@ public class PLPGeoJSONMapManager: NSObject {
                     return
                 }
             multiPolygon.foreignMembers = feature.properties ?? [:]
-            walkways.append(multiPolygon)
+            
+            if multiPolygon.foreignMembers["category_poi"] == "Walkways" {
+                walkways.append(multiPolygon)
+            }
             if multiPolygon.foreignMembers["category_poi"] == "Units" {
                 floorChangeZones.append(multiPolygon)
             }
