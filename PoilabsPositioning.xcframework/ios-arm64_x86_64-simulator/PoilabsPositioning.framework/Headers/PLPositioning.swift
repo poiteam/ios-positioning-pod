@@ -35,6 +35,7 @@ public class PLPositioning: NSObject {
     var conversionFactor: Double!
     var beaconLocationManager: PLPBeaconPositionFinder!
     var pdrManager: PLPPDRManager!
+    private var indoorPositioning = PLPIndoorPositioning()
     @objc public var delegate: PoilabsPositioningDelegate?
     
     @objc
@@ -47,17 +48,8 @@ public class PLPositioning: NSObject {
     
     @objc
     public func startPoilabsPositioning() {
-        if self.config.usePDR {
-            
-        }
-        if self.config.useMultilateration {
-            
-        }
-        if self.config.useGPS {
-            
-        }
         if beaconLocationManager == nil {
-            beaconLocationManager = PLPBeaconPositionFinder(config: config)
+            beaconLocationManager = PLPBeaconPositionFinder(config: config, indoorPositioning: indoorPositioning)
         }
         beaconLocationManager.delegate = self
         delegate?.poilabsPositioning(didStatusChange: .waitingForLocation, reason: .noReason)
@@ -69,7 +61,6 @@ public class PLPositioning: NSObject {
     
     @objc public func startPoilabsPositioning(with beaconList: [PLPBeaconNode]) {
         self.config.beaconList = beaconList
-        //beaconLocationManager.startTest()
     }
     
     @objc
@@ -114,7 +105,7 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
         self.lastLocation = locationCoordinates
         delegate?.poilabsPositioning(didUpdateLocation: locationCoordinates, area: area)
         pdrManager.startPDR(startCoordinate: locationCoordinates)
-        PLPIndoorPositioning.shared.setLastPdrLocation(coordinates: locationCoordinates)
+        indoorPositioning.setLastPdrLocation(coordinates: locationCoordinates)
     }
     
     func beaconPositionFinderDidStart() {
@@ -162,9 +153,12 @@ extension PLPositioning: PLPPDRManagerDelegate {
     }
     
     func plpPdrManager(newLocationCalculated location: CLLocationCoordinate2D) {
+        if PLPGeoJSONMapManager.shared.walkways.isEmpty {
+            return
+        }
         self.accuracy += 0.1
         delegate?.poilabsPositioning(didUpdateLocation: location, area: self.accuracy)
         self.lastLocation = location
-        PLPIndoorPositioning.shared.setLastPdrLocation(coordinates: location)
+        indoorPositioning.setLastPdrLocation(coordinates: location)
     }
 }
