@@ -296,7 +296,7 @@ extension Feature : Swift.Codable {
   public func encode(to encoder: Swift.Encoder) throws
 }
 @objc public class PLPConfig : ObjectiveC.NSObject {
-  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode], conversionFactor: Swift.Double, usePDR: Swift.Bool = false, useMultilateration: Swift.Bool = false, useGPS: Swift.Bool = false)
+  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode], conversionFactor: Swift.Double, mapRotateAngle: Swift.Double, weinbergConstant: Swift.Double)
   @objc deinit
 }
 public struct LineString : Swift.Equatable, ForeignMemberContainer {
@@ -342,7 +342,7 @@ extension PLPBeacon : Swift.Comparable {
   @objc func poilabsPositioning(didStatusChange status: PLPStatus, reason: PLPLocationStatusReason)
   @objc func poilabsPositioning(didFindBeacon uuid: Swift.String, major: Swift.String, minor: Swift.String)
   @objc func poilabsPositioning(didFail error: PoilabsPositioningError)
-  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, area: Swift.Double)
+  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, floorLevel: Swift.Int, accuracy: Swift.Double)
   @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
   @objc func poilabsPositioningDidStart()
 }

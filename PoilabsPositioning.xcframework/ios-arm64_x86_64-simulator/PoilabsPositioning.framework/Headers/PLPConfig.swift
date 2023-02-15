@@ -16,22 +16,18 @@ public class PLPConfig: NSObject {
     let rssiFilter: Double?
     var beaconList: [PLPBeaconNode]
     let conversionFactor: Double
-    let usePDR: Bool
-    let useMultilateration: Bool
-    let useGPS: Bool
+    let mapRotateAngle: Double
     
     @objc
-    public init(scanInterval: Double, locationUpdateInterval: Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Double, beaconList: [PLPBeaconNode], conversionFactor: Double,
-                usePDR: Bool = false, useMultilateration: Bool = false, useGPS: Bool = false) {
+    public init(scanInterval: Double, locationUpdateInterval: Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Double, beaconList: [PLPBeaconNode], conversionFactor: Double, mapRotateAngle: Double, weinbergConstant: Double) {
         self.scanInterval = scanInterval
         self.locationUpdateInterval = locationUpdateInterval
         self.beaconFilters = beaconFilters
         self.rssiFilter = rssiFilter
         self.beaconList = beaconList
         self.conversionFactor = conversionFactor
-        self.usePDR = usePDR
-        self.useMultilateration = useMultilateration
-        self.useGPS = useGPS
+        self.mapRotateAngle = mapRotateAngle
+        PLPPDRConstants.PLPStep.weinberg = weinbergConstant
     }
     
     func getBeaconNode(beacon: CLBeacon) -> PLPBeaconNode? {

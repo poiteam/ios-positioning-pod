@@ -249,7 +249,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPBeaconNode")
 
 SWIFT_CLASS("_TtC18PoilabsPositioning9PLPConfig")
 @interface PLPConfig : NSObject
-- (nonnull instancetype)initWithScanInterval:(double)scanInterval locationUpdateInterval:(double)locationUpdateInterval beaconFilters:(NSArray<PLPBeaconFilter *> * _Nonnull)beaconFilters rssiFilter:(double)rssiFilter beaconList:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList conversionFactor:(double)conversionFactor usePDR:(BOOL)usePDR useMultilateration:(BOOL)useMultilateration useGPS:(BOOL)useGPS OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithScanInterval:(double)scanInterval locationUpdateInterval:(double)locationUpdateInterval beaconFilters:(NSArray<PLPBeaconFilter *> * _Nonnull)beaconFilters rssiFilter:(double)rssiFilter beaconList:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList conversionFactor:(double)conversionFactor mapRotateAngle:(double)mapRotateAngle weinbergConstant:(double)weinbergConstant OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -327,7 +327,7 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidStatusChange:(enum PLPStatus)status reason:(enum PLPLocationStatusReason)reason;
 - (void)poilabsPositioningWithDidFindBeacon:(NSString * _Nonnull)uuid major:(NSString * _Nonnull)major minor:(NSString * _Nonnull)minor;
 - (void)poilabsPositioningWithDidFail:(enum PoilabsPositioningError)error;
-- (void)poilabsPositioningWithDidUpdateLocation:(CLLocationCoordinate2D)location area:(double)area;
+- (void)poilabsPositioningWithDidUpdateLocation:(CLLocationCoordinate2D)location floorLevel:(NSInteger)floorLevel accuracy:(double)accuracy;
 - (void)poilabsPositioningWithDidUpdateHeading:(CLHeading * _Nonnull)heading;
 - (void)poilabsPositioningDidStart;
 @end
@@ -600,7 +600,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPBeaconNode")
 
 SWIFT_CLASS("_TtC18PoilabsPositioning9PLPConfig")
 @interface PLPConfig : NSObject
-- (nonnull instancetype)initWithScanInterval:(double)scanInterval locationUpdateInterval:(double)locationUpdateInterval beaconFilters:(NSArray<PLPBeaconFilter *> * _Nonnull)beaconFilters rssiFilter:(double)rssiFilter beaconList:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList conversionFactor:(double)conversionFactor usePDR:(BOOL)usePDR useMultilateration:(BOOL)useMultilateration useGPS:(BOOL)useGPS OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithScanInterval:(double)scanInterval locationUpdateInterval:(double)locationUpdateInterval beaconFilters:(NSArray<PLPBeaconFilter *> * _Nonnull)beaconFilters rssiFilter:(double)rssiFilter beaconList:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList conversionFactor:(double)conversionFactor mapRotateAngle:(double)mapRotateAngle weinbergConstant:(double)weinbergConstant OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -678,7 +678,7 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidStatusChange:(enum PLPStatus)status reason:(enum PLPLocationStatusReason)reason;
 - (void)poilabsPositioningWithDidFindBeacon:(NSString * _Nonnull)uuid major:(NSString * _Nonnull)major minor:(NSString * _Nonnull)minor;
 - (void)poilabsPositioningWithDidFail:(enum PoilabsPositioningError)error;
-- (void)poilabsPositioningWithDidUpdateLocation:(CLLocationCoordinate2D)location area:(double)area;
+- (void)poilabsPositioningWithDidUpdateLocation:(CLLocationCoordinate2D)location floorLevel:(NSInteger)floorLevel accuracy:(double)accuracy;
 - (void)poilabsPositioningWithDidUpdateHeading:(CLHeading * _Nonnull)heading;
 - (void)poilabsPositioningDidStart;
 @end

@@ -13,22 +13,97 @@ public protocol PoilabsPositioningDelegate {
     @objc func poilabsPositioning(didStatusChange status: PLPStatus, reason: PLPLocationStatusReason)
     @objc func poilabsPositioning(didFindBeacon uuid: String, major: String, minor: String)
     @objc func poilabsPositioning(didFail error: PoilabsPositioningError)
-    @objc func poilabsPositioning(didUpdateLocation location: CLLocationCoordinate2D, area: Double)
+    @objc func poilabsPositioning(didUpdateLocation location: CLLocationCoordinate2D, floorLevel: Int, accuracy: Double)
     @objc func poilabsPositioning(didUpdateHeading heading: CLHeading)
     @objc func poilabsPositioningDidStart()
 }
+
+class PLPHeading: CLHeading {
+    var _trueHeading: CLLocationDirection?
+    var _magneticHeading: CLLocationDirection?
+    var _headingAccuracy: CLLocationDirection?
+    var _x: CLHeadingComponentValue?
+    var _y: CLHeadingComponentValue?
+    var _z: CLHeadingComponentValue?
+    var _timestamp: Date?
+    var mapRotateAngle: Double?
+    
+    init(heading: CLHeading, mapRotateAngle: Double) {
+        super.init()
+        self._trueHeading = heading.trueHeading
+        self._magneticHeading = heading.magneticHeading
+        self._headingAccuracy = heading.headingAccuracy
+        self._x = heading.x
+        self._y = heading.y
+        self._z = heading.z
+        self._timestamp = heading.timestamp
+        self.mapRotateAngle = mapRotateAngle
+    }
+    
+    override var trueHeading: CLLocationDirection {
+        get {
+            return fixHeadingDegree(heading: (_trueHeading ?? 0.0) - (mapRotateAngle ?? 0.0))
+        }
+    }
+    
+    override var magneticHeading: CLLocationDirection {
+        get {
+            return _magneticHeading ?? 0.0
+        }
+    }
+    
+    override var headingAccuracy: CLLocationDirection {
+        get {
+            return _headingAccuracy ?? 0.0
+        }
+    }
+    
+    override var x: CLHeadingComponentValue {
+        get {
+            return _x ?? 0.0
+        }
+    }
+    
+    override var y: CLHeadingComponentValue {
+        get {
+            return _y ?? 0.0
+        }
+    }
+    
+    override var z: CLHeadingComponentValue {
+        get {
+            return _z ?? 0.0
+        }
+    }
+    
+    override var timestamp: Date {
+        get {
+            return Date()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func fixHeadingDegree(heading: Double) -> Double {
+        var fixedHeading = heading
+        if fixedHeading >= 360 {
+            fixedHeading -= 360
+        }
+        if fixedHeading <= 0 {
+            fixedHeading += 360
+        }
+        return fixedHeading
+    }
+}
+
 @objc
 public class PLPositioning: NSObject {
     
     private var timer: Timer?
     private var lastLocation: CLLocationCoordinate2D? = nil
-//    {
-//        didSet {
-//            if let lastLocation = lastLocation {
-//                PLPIndoorPositioning.shared.floorChange(isPossible: PLPGeoJSONMapManager.shared.isInFloorChangeZone(point: lastLocation))
-//            }
-//        }
-//    }
+    private var currentFloorLevel: Int? = nil
     private var accuracy = 3.0
     
     var config: PLPConfig!
@@ -43,7 +118,7 @@ public class PLPositioning: NSObject {
         super.init()
         self.config = config
         conversionFactor = config.conversionFactor
-        pdrManager = PLPPDRManager(conversionFactor: conversionFactor)
+        pdrManager = PLPPDRManager(conversionFactor: conversionFactor, mapRotateAngle: config.mapRotateAngle)
     }
     
     @objc
@@ -99,11 +174,13 @@ extension PLPositioning {
 
 
 extension PLPositioning: PLPBeaconPositionFinderDelegate {    
-    func beaconPositionFinder(didFindLocation location: PLPLocation, area: Double) {
+    func beaconPositionFinder(didFindLocation location: PLPLocation, accuracy: Double) {
         let locationCoordinates = location.getLocation()
-        self.accuracy = area
+        self.accuracy = accuracy
         self.lastLocation = locationCoordinates
-        delegate?.poilabsPositioning(didUpdateLocation: locationCoordinates, area: area)
+        self.currentFloorLevel = location.floorLevel
+        guard let floorLevel = self.currentFloorLevel else { return }
+        delegate?.poilabsPositioning(didUpdateLocation: locationCoordinates, floorLevel: floorLevel, accuracy: accuracy)
         pdrManager.startPDR(startCoordinate: locationCoordinates)
         indoorPositioning.setLastPdrLocation(coordinates: locationCoordinates)
     }
@@ -117,7 +194,8 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
     }
     
     func beaconPositionFinder(didFindHeading heading: CLHeading) {
-        delegate?.poilabsPositioning(didUpdateHeading: heading)
+        //let heading = fixHeadingDegree(heading: heading.trueHeading - config.mapRotateAngle)
+        delegate?.poilabsPositioning(didUpdateHeading: PLPHeading(heading: heading, mapRotateAngle: config.mapRotateAngle))
     }
     
     func beaconPositionFinder(didFailWithError error: PoilabsPositioningError) {
@@ -157,7 +235,8 @@ extension PLPositioning: PLPPDRManagerDelegate {
             return
         }
         self.accuracy += 0.1
-        delegate?.poilabsPositioning(didUpdateLocation: location, area: self.accuracy)
+        guard let floorLevel = self.currentFloorLevel else { return }
+        delegate?.poilabsPositioning(didUpdateLocation: location, floorLevel: floorLevel, accuracy: self.accuracy)
         self.lastLocation = location
         indoorPositioning.setLastPdrLocation(coordinates: location)
     }
