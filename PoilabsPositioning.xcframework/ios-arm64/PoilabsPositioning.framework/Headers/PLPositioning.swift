@@ -16,6 +16,7 @@ public protocol PoilabsPositioningDelegate {
     @objc func poilabsPositioning(didUpdateLocation location: CLLocationCoordinate2D, floorLevel: Int, accuracy: Double)
     @objc func poilabsPositioning(didUpdateHeading heading: CLHeading)
     @objc func poilabsPositioningDidStart()
+    @objc func poilabsPositioning(didThresholdChange threshold: Int)
 }
 
 class PLPHeading: CLHeading {
@@ -26,9 +27,8 @@ class PLPHeading: CLHeading {
     var _y: CLHeadingComponentValue?
     var _z: CLHeadingComponentValue?
     var _timestamp: Date?
-    var mapRotateAngle: Double?
     
-    init(heading: CLHeading, mapRotateAngle: Double) {
+    init(heading: CLHeading) {
         super.init()
         self._trueHeading = heading.trueHeading
         self._magneticHeading = heading.magneticHeading
@@ -37,12 +37,11 @@ class PLPHeading: CLHeading {
         self._y = heading.y
         self._z = heading.z
         self._timestamp = heading.timestamp
-        self.mapRotateAngle = mapRotateAngle
     }
     
     override var trueHeading: CLLocationDirection {
         get {
-            return fixHeadingDegree(heading: (_trueHeading ?? 0.0) - (mapRotateAngle ?? 0.0))
+            return fixHeadingDegree(heading: (_trueHeading ?? 0.0) - PLPPDRConstants.mapRotateAngle)
         }
     }
     
@@ -107,7 +106,6 @@ public class PLPositioning: NSObject {
     private var accuracy = 3.0
     
     var config: PLPConfig!
-    var conversionFactor: Double!
     var beaconLocationManager: PLPBeaconPositionFinder!
     var pdrManager: PLPPDRManager!
     private var indoorPositioning = PLPIndoorPositioning()
@@ -117,8 +115,20 @@ public class PLPositioning: NSObject {
     public init(config: PLPConfig) {
         super.init()
         self.config = config
-        conversionFactor = config.conversionFactor
-        pdrManager = PLPPDRManager(conversionFactor: conversionFactor, mapRotateAngle: config.mapRotateAngle)
+        pdrManager = PLPPDRManager()
+        PLPRssiThresholdCalculator.shared.delegate = self
+    }
+    
+    @objc public func setMapRotateAngle(mapRotateAngle: Double) {
+        PLPPDRConstants.mapRotateAngle = mapRotateAngle
+    }
+    
+    @objc public func setConversionFactor(conversionFactor: Double) {
+        PLPPDRConstants.conversionFactor = conversionFactor
+    }
+    
+    @objc public func setWeinbergConstant(weinberg: Double) {
+        PLPPDRConstants.PLPStep.weinberg = weinberg
     }
     
     @objc
@@ -195,7 +205,7 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
     
     func beaconPositionFinder(didFindHeading heading: CLHeading) {
         //let heading = fixHeadingDegree(heading: heading.trueHeading - config.mapRotateAngle)
-        delegate?.poilabsPositioning(didUpdateHeading: PLPHeading(heading: heading, mapRotateAngle: config.mapRotateAngle))
+        delegate?.poilabsPositioning(didUpdateHeading: PLPHeading(heading: heading))
     }
     
     func beaconPositionFinder(didFailWithError error: PoilabsPositioningError) {
@@ -239,5 +249,11 @@ extension PLPositioning: PLPPDRManagerDelegate {
         delegate?.poilabsPositioning(didUpdateLocation: location, floorLevel: floorLevel, accuracy: self.accuracy)
         self.lastLocation = location
         indoorPositioning.setLastPdrLocation(coordinates: location)
+    }
+}
+
+extension PLPositioning: PLPRssiThresholdCalculatorDelegate {
+    func rssiThresholdCalculator(didThresholdChange threshold: Int) {
+        self.delegate?.poilabsPositioning(didThresholdChange: threshold)
     }
 }

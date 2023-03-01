@@ -296,7 +296,7 @@ extension Feature : Swift.Codable {
   public func encode(to encoder: Swift.Encoder) throws
 }
 @objc public class PLPConfig : ObjectiveC.NSObject {
-  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode], conversionFactor: Swift.Double, mapRotateAngle: Swift.Double, weinbergConstant: Swift.Double)
+  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode])
   @objc deinit
 }
 public struct LineString : Swift.Equatable, ForeignMemberContainer {
@@ -345,10 +345,14 @@ extension PLPBeacon : Swift.Comparable {
   @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, floorLevel: Swift.Int, accuracy: Swift.Double)
   @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
   @objc func poilabsPositioningDidStart()
+  @objc func poilabsPositioning(didThresholdChange threshold: Swift.Int)
 }
 @objc public class PLPositioning : ObjectiveC.NSObject {
   @objc public var delegate: PoilabsPositioningDelegate?
   @objc public init(config: PLPConfig)
+  @objc public func setMapRotateAngle(mapRotateAngle: Swift.Double)
+  @objc public func setConversionFactor(conversionFactor: Swift.Double)
+  @objc public func setWeinbergConstant(weinberg: Swift.Double)
   @objc public func startPoilabsPositioning()
   @objc public func startPoilabsPositioning(with beaconList: [PLPBeaconNode])
   @objc public func stopPoilabsPositioning()

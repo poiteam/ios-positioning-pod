@@ -247,7 +247,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPBeaconNode")
 
 SWIFT_CLASS("_TtC18PoilabsPositioning9PLPConfig")
 @interface PLPConfig : NSObject
-- (nonnull instancetype)initWithScanInterval:(double)scanInterval locationUpdateInterval:(double)locationUpdateInterval beaconFilters:(NSArray<PLPBeaconFilter *> * _Nonnull)beaconFilters rssiFilter:(double)rssiFilter beaconList:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList conversionFactor:(double)conversionFactor mapRotateAngle:(double)mapRotateAngle weinbergConstant:(double)weinbergConstant OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithScanInterval:(double)scanInterval locationUpdateInterval:(double)locationUpdateInterval beaconFilters:(NSArray<PLPBeaconFilter *> * _Nonnull)beaconFilters rssiFilter:(double)rssiFilter beaconList:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -294,6 +294,9 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 @interface PLPositioning : NSObject
 @property (nonatomic, strong) id <PoilabsPositioningDelegate> _Nullable delegate;
 - (nonnull instancetype)initWithConfig:(PLPConfig * _Nonnull)config OBJC_DESIGNATED_INITIALIZER;
+- (void)setMapRotateAngleWithMapRotateAngle:(double)mapRotateAngle;
+- (void)setConversionFactorWithConversionFactor:(double)conversionFactor;
+- (void)setWeinbergConstantWithWeinberg:(double)weinberg;
 - (void)startPoilabsPositioning;
 - (void)startPoilabsPositioningWith:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList;
 - (void)stopPoilabsPositioning;
@@ -301,6 +304,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 
@@ -328,6 +332,7 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidUpdateLocation:(CLLocationCoordinate2D)location floorLevel:(NSInteger)floorLevel accuracy:(double)accuracy;
 - (void)poilabsPositioningWithDidUpdateHeading:(CLHeading * _Nonnull)heading;
 - (void)poilabsPositioningDidStart;
+- (void)poilabsPositioningWithDidThresholdChange:(NSInteger)threshold;
 @end
 
 typedef SWIFT_ENUM(NSInteger, PoilabsPositioningError, open) {
