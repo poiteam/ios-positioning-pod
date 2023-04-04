@@ -14,6 +14,7 @@ public class PLPGeoJSONMapManager: NSObject {
     
     var floorChangeZones = [MultiPolygon]()
     var walkways = [MultiPolygon]()
+    var zones = [MultiPolygon]()
     var linestrings = [LineString]()
     var lastPdrLocation: CLLocationCoordinate2D?
     
@@ -29,6 +30,52 @@ public class PLPGeoJSONMapManager: NSObject {
             }
         }
         return result
+    }
+    
+    private func getZone(for coordinate: CLLocationCoordinate2D) -> MultiPolygon? {
+        for polygon in zones {
+            if polygon.contains(coordinate) {
+                return polygon
+            }
+        }
+        return nil
+    }
+    
+    private func getZoneId(for polygon: MultiPolygon) -> String? {
+        guard case let .string(zoneId) = polygon.foreignMembers["zone_id"] else {
+                return nil
+            }
+        return zoneId
+    }
+    
+    private func getPassList(for polygon: MultiPolygon) -> [String] {
+        guard case let .array(passList) = polygon.foreignMembers["pass_list"] else {
+            return []
+        }
+        return (passList.rawValue as? [String]) ?? []
+    }
+    
+    func canPassZone(oldCoordinate: CLLocationCoordinate2D, newCoordinate: CLLocationCoordinate2D) -> Bool {
+        guard let oldZone = getZone(for: oldCoordinate), let oldZoneId = getZoneId(for: oldZone) else { return true }
+        
+        if oldZone.contains(newCoordinate) {
+            //old coordinate and new coordinate are in the same zone
+            return true
+        }
+        
+        //new coordinate is in a different zone
+        guard let newZone = getZone(for: newCoordinate), let newZoneId = getZoneId(for: newZone) else { return true }
+        
+        if oldZoneId == newZoneId {
+            return true
+        } else {
+            let passList = getPassList(for: oldZone)
+            if passList.contains(newZoneId) {
+                return true
+            } else {
+                return false
+            }
+        }
     }
     
     func nearestPointOnLine(point: CLLocationCoordinate2D, heading: Double? = nil) -> CLLocationCoordinate2D? {
@@ -84,6 +131,9 @@ public class PLPGeoJSONMapManager: NSObject {
             }
             if multiPolygon.foreignMembers["category_poi"] == "Units" {
                 floorChangeZones.append(multiPolygon)
+            }
+            if multiPolygon.foreignMembers["category_poi"] == "Zones" {
+                zones.append(multiPolygon)
             }
         }
         
