@@ -16,6 +16,7 @@ public class PLPGeoJSONMapManager: NSObject {
     var walkways = [MultiPolygon]()
     var zones = [MultiPolygon]()
     var linestrings = [LineString]()
+    var linesDict = [Int:[LineString]]()
     var lastPdrLocation: CLLocationCoordinate2D?
     
     @objc public static var shared = PLPGeoJSONMapManager()
@@ -55,6 +56,18 @@ public class PLPGeoJSONMapManager: NSObject {
         return (passList.rawValue as? [String]) ?? []
     }
     
+    private func getPassList(for zoneId: String) -> [String] {
+        guard let polygon = zones.first(where: { polygon in
+            if case .string(let zoneIDValue) = polygon.foreignMembers["zone_id"], zoneIDValue == zoneId {
+                return true
+            }
+            return false
+        }) else {
+            return []
+        }
+        return getPassList(for: polygon)
+    }
+    
     func canPassZone(oldCoordinate: CLLocationCoordinate2D, newCoordinate: CLLocationCoordinate2D) -> Bool {
         guard let oldZone = getZone(for: oldCoordinate), let oldZoneId = getZoneId(for: oldZone) else { return true }
         
@@ -69,37 +82,63 @@ public class PLPGeoJSONMapManager: NSObject {
         if oldZoneId == newZoneId {
             return true
         } else {
-            let passList = getPassList(for: oldZone)
-            if passList.contains(newZoneId) {
-                return true
-            } else {
-                return false
-            }
+            return isZoneReachable(from: oldZoneId, to: newZoneId)
         }
     }
     
-    func nearestPointOnLine(point: CLLocationCoordinate2D, heading: Double? = nil) -> CLLocationCoordinate2D? {
-        var minDistance: Double = .greatestFiniteMagnitude
-        var nearestPoint: CLLocationCoordinate2D!
+    func isZoneReachable(from startZone: String, to endZone: String) -> Bool {
+        if startZone == endZone {
+            return true
+        }
         
-        linestrings.forEach { lineString in
-            if let degree = getLineDegree(line: lineString), let heading = heading, let nearestPointOnLine = lineString.closestCoordinate(to: point)?.coordinate {
-                if isSameDirection(wallLine: degree, heading: heading) {
-                     let distance = nearestPointOnLine.distance(to: point)
-                     if distance < minDistance && distance < 5 {
-                         minDistance = distance
-                         nearestPoint = nearestPointOnLine
-                     }
-                }
+        var visitedZones = [startZone]
+        return traverseOverZoneList(visitedZones: &visitedZones, searchedZone: endZone)
+    }
+
+    func traverseOverZoneList(visitedZones: inout [String], searchedZone: String) -> Bool {
+        if let currentZone = visitedZones.last {
+            let values = getPassList(for: currentZone)
+            if values.isEmpty {
+                return false
             }
-            if heading == nil {
-                if let nearestPointOnLine = lineString.closestCoordinate(to: point)?.coordinate {
-                    let distance = nearestPointOnLine.distance(to: point)
-                    if distance < minDistance {
-                        minDistance = distance
-                        nearestPoint = nearestPointOnLine
+            if values.contains(searchedZone) {
+                return true
+            } else {
+                for value in values {
+                    if !visitedZones.contains(value) {
+                        visitedZones.append(value)
+                        if traverseOverZoneList(visitedZones: &visitedZones, searchedZone: searchedZone) {
+                            return true
+                        }
                     }
                 }
+            }
+        }
+        return false
+    }
+    
+    func nearestPointOnLine(point: CLLocationCoordinate2D, heading: Double? = nil, floorLevel: Int? = nil) -> CLLocationCoordinate2D? {
+        var minDistance: Double = .greatestFiniteMagnitude
+        var nearestPoint: CLLocationCoordinate2D!
+        var lines = linestrings
+        if let floorLevel = floorLevel, let floorLines = linesDict[floorLevel] {
+            lines = floorLines
+        }
+        
+        lines.forEach { lineString in
+            if let heading = heading, let degree = getLineDegree(line: lineString) {
+                if !isSameDirection(wallLine: degree, heading: heading) {
+                    return
+                }
+            }
+            guard let nearestPointOnLine = lineString.closestCoordinate(to: point)?.coordinate else { return }
+            let distance = nearestPointOnLine.distance(to: point)
+            if distance > 5 {
+                return
+            }
+            if distance < minDistance {
+                minDistance = distance
+                nearestPoint = nearestPointOnLine
             }
         }
         return nearestPoint
@@ -142,8 +181,16 @@ public class PLPGeoJSONMapManager: NSObject {
                 polygon.coordinates.forEach { coordinates in
                     for i in 0..<coordinates.count {
                         let second = (i+1 < coordinates.count) ? i+1 : 0
-                        let newLine = LineString([coordinates[i], coordinates[second]])
-                        linestrings.append(newLine)
+                        var newLine = LineString([coordinates[i], coordinates[second]])
+                        newLine.foreignMembers = walkway.foreignMembers
+                        if case .string(let floorLevelId) = newLine.foreignMembers["level_id"], let floorLevel = Int(floorLevelId) {
+                            linestrings.append(newLine)
+                            if linesDict[floorLevel] == nil {
+                                linesDict[floorLevel] = [newLine]
+                            } else {
+                                linesDict[floorLevel]?.append(newLine)
+                            }
+                        }
                     }
                 }
             })

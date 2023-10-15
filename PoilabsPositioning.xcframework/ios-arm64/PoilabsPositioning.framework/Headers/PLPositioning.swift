@@ -105,16 +105,19 @@ public class PLPositioning: NSObject {
     private var currentFloorLevel: Int? = nil
     private var accuracy = 3.0
     
-    var config: PLPConfig!
-    var beaconLocationManager: PLPBeaconPositionFinder!
-    var pdrManager: PLPPDRManager!
-    private var indoorPositioning = PLPIndoorPositioning()
+    private var config: PLPConfig!
+    private var beaconLocationManager: PLPBeaconPositionFinder!
+    private var pdrManager: PLPPDRManager!
+    private var indoorPositioning: PLPIndoorPositioning!
     @objc public var delegate: PoilabsPositioningDelegate?
+    
+    private var bluetoohStatus: Bool = true
     
     @objc
     public init(config: PLPConfig) {
         super.init()
         self.config = config
+        indoorPositioning = PLPIndoorPositioning(scanInvertal: config.scanInterval)
         pdrManager = PLPPDRManager()
         PLPRssiThresholdCalculator.shared.delegate = self
     }
@@ -142,6 +145,14 @@ public class PLPositioning: NSObject {
         self.startTimer()
 
         pdrManager.delegate = self
+    }
+    
+    @objc public func getLocationStatus() -> Bool {
+        return beaconLocationManager.getLocationManagerStatus()
+    }
+    
+    @objc public func getBluetoothStatus() -> Bool {
+        return self.bluetoohStatus
     }
     
     @objc public func startPoilabsPositioning(with beaconList: [PLPBeaconNode]) {
@@ -191,11 +202,13 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
         self.currentFloorLevel = location.floorLevel
         guard let floorLevel = self.currentFloorLevel else { return }
         delegate?.poilabsPositioning(didUpdateLocation: locationCoordinates, floorLevel: floorLevel, accuracy: accuracy)
+        pdrManager.currentFloorLevel = location.floorLevel
         pdrManager.startPDR(startCoordinate: locationCoordinates)
         indoorPositioning.setLastPdrLocation(coordinates: locationCoordinates)
     }
     
     func beaconPositionFinderDidStart() {
+        self.bluetoohStatus = true
         delegate?.poilabsPositioningDidStart()
     }
     
@@ -225,6 +238,7 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
         case .beaconNotFound:
             PoilabsPositioningUtils.logDebugInformations(log: "beacon not found", priority: 20)
         case .bluetoothNotAvaible:
+            self.bluetoohStatus = false
             delegate?.poilabsPositioning(didFail: .bluetoothNotAvaible)
             delegate?.poilabsPositioning(didStatusChange: .locationNotFound, reason: .missingPermission)
         case .locationNotAvaible:

@@ -300,6 +300,8 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 - (void)setConversionFactorWithConversionFactor:(double)conversionFactor;
 - (void)setWeinbergConstantWithWeinberg:(double)weinberg;
 - (void)startPoilabsPositioning;
+- (BOOL)getLocationStatus SWIFT_WARN_UNUSED_RESULT;
+- (BOOL)getBluetoothStatus SWIFT_WARN_UNUSED_RESULT;
 - (void)startPoilabsPositioningWith:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList;
 - (void)stopPoilabsPositioning;
 - (void)closeAllActions;
@@ -656,6 +658,8 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 - (void)setConversionFactorWithConversionFactor:(double)conversionFactor;
 - (void)setWeinbergConstantWithWeinberg:(double)weinberg;
 - (void)startPoilabsPositioning;
+- (BOOL)getLocationStatus SWIFT_WARN_UNUSED_RESULT;
+- (BOOL)getBluetoothStatus SWIFT_WARN_UNUSED_RESULT;
 - (void)startPoilabsPositioningWith:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList;
 - (void)stopPoilabsPositioning;
 - (void)closeAllActions;
