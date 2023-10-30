@@ -251,7 +251,7 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
 
 extension PLPositioning: PLPPDRManagerDelegate {
     func plpPdrManagerStuck() {
-        //print("takildim")
+        indoorPositioning.forceToResetAfterStuck()
     }
     
     func plpPdrManager(newLocationCalculated location: CLLocationCoordinate2D) {

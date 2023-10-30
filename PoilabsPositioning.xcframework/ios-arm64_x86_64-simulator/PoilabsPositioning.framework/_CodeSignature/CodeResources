@@ -14,7 +14,7 @@
 		</data>
 		<key>Headers/PLPositioning.swift</key>
 		<data>
-		II++l/+nwKg5fkHyUsTBd3woMP0=
+		PJ5a1Gnos/7bZ5hCGqH+D1GQgI4=
 		</data>
 		<key>Headers/PLRoutingUtils.swift</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		y0+U3epl7TZhyIX0+oZFurc5E0o=
+		ps/UhAk4sd6/9PCVF+wHlJQbLrw=
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		dvxCnQ7+lpXAT+hEGOaCvdC4+Is=
+		oEXJb2I4jWK/I7H4Da2mx9yFpnM=
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		dvxCnQ7+lpXAT+hEGOaCvdC4+Is=
+		oEXJb2I4jWK/I7H4Da2mx9yFpnM=
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -66,7 +66,7 @@
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		bvtjZxSSQqKMCv20CDzNHK4zh+g=
+		lv7MOgGL3Y0Wh19gb17P61pg9gE=
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -78,7 +78,7 @@
 		</data>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		bvtjZxSSQqKMCv20CDzNHK4zh+g=
+		lv7MOgGL3Y0Wh19gb17P61pg9gE=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -105,7 +105,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			G6N7qTwxV3tqUoZIy+XXnavKiwAHIuGflOoUDGMZyBM=
+			GDscVyKWQ6ywrKn19P+s3E8Ri7Gya+qis4gVdHk76do=
 			</data>
 		</dict>
 		<key>Headers/PLRoutingUtils.swift</key>
@@ -147,7 +147,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			zmePhq3uLVFv1uXJ17GBFPGM92LBlJ7wXlqT5yfOEPE=
+			pvez0QOZYyv4US4nXgR3UVuHl+6UfE3YnwhMuztJ48A=
 			</data>
 		</dict>
 		<key>Modules/PoilabsPositioning.swiftmodule/arm64.swiftdoc</key>
@@ -168,7 +168,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			zmePhq3uLVFv1uXJ17GBFPGM92LBlJ7wXlqT5yfOEPE=
+			pvez0QOZYyv4US4nXgR3UVuHl+6UfE3YnwhMuztJ48A=
 			</data>
 		</dict>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -189,7 +189,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CsU3q7zakv80eAe8SytjhkJQDrasWerMqE3Zyyr7CmM=
+			qwElZzR9QzwyQgD7uqtAVDXhTRtsijcrrW4tBPKaKQk=
 			</data>
 		</dict>
 		<key>Modules/PoilabsPositioning.swiftmodule/x86_64.swiftdoc</key>
@@ -210,7 +210,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CsU3q7zakv80eAe8SytjhkJQDrasWerMqE3Zyyr7CmM=
+			qwElZzR9QzwyQgD7uqtAVDXhTRtsijcrrW4tBPKaKQk=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
