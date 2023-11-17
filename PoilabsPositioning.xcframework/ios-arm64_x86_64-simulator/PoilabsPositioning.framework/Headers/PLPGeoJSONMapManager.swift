@@ -133,9 +133,6 @@ public class PLPGeoJSONMapManager: NSObject {
             }
             guard let nearestPointOnLine = lineString.closestCoordinate(to: point)?.coordinate else { return }
             let distance = nearestPointOnLine.distance(to: point)
-            if distance > 5 {
-                return
-            }
             if distance < minDistance {
                 minDistance = distance
                 nearestPoint = nearestPointOnLine
