@@ -68,6 +68,17 @@ public class PLPGeoJSONMapManager: NSObject {
         return getPassList(for: polygon)
     }
     
+    func doesIntersectWalkway(pre_location: CLLocationCoordinate2D, new_location: CLLocationCoordinate2D) -> Bool {
+        var doesIntersect = false
+        let line = LineString([pre_location, new_location])
+        linestrings.forEach { walkwayLine in
+            if !walkwayLine.intersections(with: line).isEmpty {
+                doesIntersect = true
+            }
+        }
+        return doesIntersect
+    }
+    
     func canPassZone(oldCoordinate: CLLocationCoordinate2D, newCoordinate: CLLocationCoordinate2D) -> Bool {
         guard let oldZone = getZone(for: oldCoordinate), let oldZoneId = getZoneId(for: oldZone) else { return true }
         
@@ -133,6 +144,9 @@ public class PLPGeoJSONMapManager: NSObject {
             }
             guard let nearestPointOnLine = lineString.closestCoordinate(to: point)?.coordinate else { return }
             let distance = nearestPointOnLine.distance(to: point)
+            if distance > 5 {
+                return
+            }
             if distance < minDistance {
                 minDistance = distance
                 nearestPoint = nearestPointOnLine

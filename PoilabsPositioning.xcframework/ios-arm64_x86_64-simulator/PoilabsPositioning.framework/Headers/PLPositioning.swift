@@ -117,7 +117,7 @@ public class PLPositioning: NSObject {
     public init(config: PLPConfig) {
         super.init()
         self.config = config
-        indoorPositioning = PLPIndoorPositioning(scanInvertal: config.scanInterval)
+        indoorPositioning = PLPIndoorPositioning(scanInvertal: config.scanInterval, multilateration: config.multilateration)
         pdrManager = PLPPDRManager()
         PLPRssiThresholdCalculator.shared.delegate = self
     }

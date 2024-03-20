@@ -296,7 +296,7 @@ extension Feature : Swift.Codable {
   public func encode(to encoder: Swift.Encoder) throws
 }
 @objc public class PLPConfig : ObjectiveC.NSObject {
-  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode])
+  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode], multilateration: Swift.Bool)
   @objc deinit
 }
 public struct LineString : Swift.Equatable, ForeignMemberContainer {

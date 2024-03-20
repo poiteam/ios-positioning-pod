@@ -247,7 +247,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPBeaconNode")
 
 SWIFT_CLASS("_TtC18PoilabsPositioning9PLPConfig")
 @interface PLPConfig : NSObject
-- (nonnull instancetype)initWithScanInterval:(double)scanInterval locationUpdateInterval:(double)locationUpdateInterval beaconFilters:(NSArray<PLPBeaconFilter *> * _Nonnull)beaconFilters rssiFilter:(double)rssiFilter beaconList:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithScanInterval:(double)scanInterval locationUpdateInterval:(double)locationUpdateInterval beaconFilters:(NSArray<PLPBeaconFilter *> * _Nonnull)beaconFilters rssiFilter:(double)rssiFilter beaconList:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList multilateration:(BOOL)multilateration OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end

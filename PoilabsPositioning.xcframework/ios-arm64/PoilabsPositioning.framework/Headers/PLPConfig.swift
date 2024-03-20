@@ -15,14 +15,16 @@ public class PLPConfig: NSObject {
     let beaconFilters: [PLPBeaconFilter]
     let rssiFilter: Double?
     var beaconList: [PLPBeaconNode]
+    let multilateration: Bool
     
     @objc
-    public init(scanInterval: Double, locationUpdateInterval: Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Double, beaconList: [PLPBeaconNode]) {
+    public init(scanInterval: Double, locationUpdateInterval: Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Double, beaconList: [PLPBeaconNode], multilateration: Bool) {
         self.scanInterval = scanInterval
         self.locationUpdateInterval = locationUpdateInterval
         self.beaconFilters = beaconFilters
         self.rssiFilter = rssiFilter
         self.beaconList = beaconList
+        self.multilateration = multilateration
     }
     
     func getBeaconNode(beacon: CLBeacon) -> PLPBeaconNode? {
