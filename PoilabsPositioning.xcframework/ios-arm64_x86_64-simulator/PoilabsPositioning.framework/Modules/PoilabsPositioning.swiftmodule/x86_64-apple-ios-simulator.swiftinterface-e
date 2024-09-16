@@ -346,6 +346,7 @@ extension PoilabsPositioning.PLPBeacon : Swift.Comparable {
   @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
   @objc func poilabsPositioningDidStart()
   @objc func poilabsPositioning(didThresholdChange threshold: Swift.Int)
+  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocation)
 }
 @objc public class PLPositioning : ObjectiveC.NSObject {
   @objc public var delegate: PoilabsPositioning.PoilabsPositioningDelegate?
@@ -354,6 +355,8 @@ extension PoilabsPositioning.PLPBeacon : Swift.Comparable {
   @objc public func setConversionFactor(conversionFactor: Swift.Double)
   @objc public func setWeinbergConstant(weinberg: Swift.Double)
   @objc public func startPoilabsPositioning()
+  @objc public func startPoilabsOutdoorPositioning()
+  @objc public func stopPoilabsOutdoorPositioning()
   @objc public func getLocationStatus() -> Swift.Bool
   @objc public func getBluetoothStatus() -> Swift.Bool
   @objc public func startPoilabsPositioning(with beaconList: [PoilabsPositioning.PLPBeaconNode])

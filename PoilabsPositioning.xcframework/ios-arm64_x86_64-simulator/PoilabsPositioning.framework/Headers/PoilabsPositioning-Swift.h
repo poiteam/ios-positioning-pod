@@ -300,6 +300,8 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 - (void)setConversionFactorWithConversionFactor:(double)conversionFactor;
 - (void)setWeinbergConstantWithWeinberg:(double)weinberg;
 - (void)startPoilabsPositioning;
+- (void)startPoilabsOutdoorPositioning;
+- (void)stopPoilabsOutdoorPositioning;
 - (BOOL)getLocationStatus SWIFT_WARN_UNUSED_RESULT;
 - (BOOL)getBluetoothStatus SWIFT_WARN_UNUSED_RESULT;
 - (void)startPoilabsPositioningWith:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList;
@@ -308,6 +310,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 
@@ -337,6 +340,7 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidUpdateHeading:(CLHeading * _Nonnull)heading;
 - (void)poilabsPositioningDidStart;
 - (void)poilabsPositioningWithDidThresholdChange:(NSInteger)threshold;
+- (void)poilabsPositioningWithDidUpdateLocation:(CLLocation * _Nonnull)location;
 @end
 
 typedef SWIFT_ENUM(NSInteger, PoilabsPositioningError, open) {
@@ -658,6 +662,8 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 - (void)setConversionFactorWithConversionFactor:(double)conversionFactor;
 - (void)setWeinbergConstantWithWeinberg:(double)weinberg;
 - (void)startPoilabsPositioning;
+- (void)startPoilabsOutdoorPositioning;
+- (void)stopPoilabsOutdoorPositioning;
 - (BOOL)getLocationStatus SWIFT_WARN_UNUSED_RESULT;
 - (BOOL)getBluetoothStatus SWIFT_WARN_UNUSED_RESULT;
 - (void)startPoilabsPositioningWith:(NSArray<PLPBeaconNode *> * _Nonnull)beaconList;
@@ -666,6 +672,7 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 
@@ -695,6 +702,7 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidUpdateHeading:(CLHeading * _Nonnull)heading;
 - (void)poilabsPositioningDidStart;
 - (void)poilabsPositioningWithDidThresholdChange:(NSInteger)threshold;
+- (void)poilabsPositioningWithDidUpdateLocation:(CLLocation * _Nonnull)location;
 @end
 
 typedef SWIFT_ENUM(NSInteger, PoilabsPositioningError, open) {

@@ -17,6 +17,7 @@ public protocol PoilabsPositioningDelegate {
     @objc func poilabsPositioning(didUpdateHeading heading: CLHeading)
     @objc func poilabsPositioningDidStart()
     @objc func poilabsPositioning(didThresholdChange threshold: Int)
+    @objc func poilabsPositioning(didUpdateLocation location: CLLocation)
 }
 
 class PLPHeading: CLHeading {
@@ -111,6 +112,8 @@ public class PLPositioning: NSObject {
     private var indoorPositioning: PLPIndoorPositioning!
     @objc public var delegate: PoilabsPositioningDelegate?
     
+    private var locationManager: PLPLocationManager?
+    
     private var bluetoohStatus: Bool = true
     
     @objc
@@ -147,6 +150,16 @@ public class PLPositioning: NSObject {
         pdrManager.delegate = self
     }
     
+    @objc public func startPoilabsOutdoorPositioning() {
+        locationManager = PLPLocationManager(config: self.config)
+        locationManager?.delegate = self
+        locationManager?.startLocationUpdates()
+    }
+    
+    @objc public func stopPoilabsOutdoorPositioning() {
+        locationManager?.stopLocationUpdates()
+    }
+    
     @objc public func getLocationStatus() -> Bool {
         return beaconLocationManager.getLocationManagerStatus()
     }
@@ -163,6 +176,7 @@ public class PLPositioning: NSObject {
     public func stopPoilabsPositioning() {
         self.stopTimer()
         beaconLocationManager.stopBeaconPositioning()
+        pdrManager.stopPDR()
     }
     
     @objc
@@ -193,6 +207,33 @@ extension PLPositioning {
     }
 }
 
+extension PLPositioning: PLPLocationManagerDelegate {
+    func locationManager(didChangeAuthorization status: CLAuthorizationStatus) {
+        
+    }
+    
+    func locationManager(didFail error: PoilabsPositioningError) {
+        
+    }
+    
+    func locationManager(didFound beacons: [PLPBeacon]) {
+        
+    }
+    
+    func locationManager(didUpdateHeading newHeading: CLHeading) {
+        delegate?.poilabsPositioning(didUpdateHeading: newHeading)
+    }
+    
+    func locationManagerDidStartRanging() {
+        
+    }
+    
+    func locationManager(didUpdateLocation location: CLLocation) {
+        delegate?.poilabsPositioning(didUpdateLocation: location)
+    }
+    
+    
+}
 
 extension PLPositioning: PLPBeaconPositionFinderDelegate {    
     func beaconPositionFinder(didFindLocation location: PLPLocation, accuracy: Double) {
