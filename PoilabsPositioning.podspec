@@ -20,7 +20,7 @@ s.summary = "PoilabsPositioning"
 s.version = "1.1.1"
 
 # 3
-s.license = { :type => "MIT", :file => "LICENSE" }
+s.license = { :type => "Proprietary", :file => "LICENSE" }
 
 # 4 - Replace with your name and e-mail address
 s.author = { "Emre Kuru" => "emre@poilabs.com" }
