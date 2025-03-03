@@ -17,7 +17,6 @@ public protocol PoilabsPositioningDelegate {
     @objc func poilabsPositioning(didUpdateHeading heading: CLHeading)
     @objc func poilabsPositioningDidStart()
     @objc func poilabsPositioning(didThresholdChange threshold: Int)
-    @objc func poilabsPositioning(didUpdateLocation location: CLLocation)
 }
 
 class PLPHeading: CLHeading {
@@ -112,17 +111,26 @@ public class PLPositioning: NSObject {
     private var indoorPositioning: PLPIndoorPositioning!
     @objc public var delegate: PoilabsPositioningDelegate?
     
-    private var locationManager: PLPLocationManager?
-    
     private var bluetoohStatus: Bool = true
     
     @objc
     public init(config: PLPConfig) {
         super.init()
         self.config = config
-        indoorPositioning = PLPIndoorPositioning(scanInvertal: config.scanInterval, multilateration: config.multilateration)
+        indoorPositioning = PLPIndoorPositioning(scanInvertal: config.scanInterval)
         pdrManager = PLPPDRManager()
         PLPRssiThresholdCalculator.shared.delegate = self
+        pdrManager.delegate = self
+        
+        if beaconLocationManager == nil {
+            beaconLocationManager = PLPBeaconPositionFinder(config: config, indoorPositioning: indoorPositioning)
+        }
+        beaconLocationManager.delegate = self
+        
+    }
+    
+    public func startpdr(location: CLLocationCoordinate2D) {
+        pdrManager.startPDR(startCoordinate: location)
     }
     
     @objc public func setMapRotateAngle(mapRotateAngle: Double) {
@@ -139,6 +147,12 @@ public class PLPositioning: NSObject {
     
     @objc
     public func startPoilabsPositioning() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "dd-MM-yyyy HH-mm"
+        
+        PoilabsPositioningUtils.directoryName = dateFormatter.string(from: Date())
+        
         if beaconLocationManager == nil {
             beaconLocationManager = PLPBeaconPositionFinder(config: config, indoorPositioning: indoorPositioning)
         }
@@ -148,16 +162,6 @@ public class PLPositioning: NSObject {
         self.startTimer()
 
         pdrManager.delegate = self
-    }
-    
-    @objc public func startPoilabsOutdoorPositioning() {
-        locationManager = PLPLocationManager(config: self.config)
-        locationManager?.delegate = self
-        locationManager?.startLocationUpdates()
-    }
-    
-    @objc public func stopPoilabsOutdoorPositioning() {
-        locationManager?.stopLocationUpdates()
     }
     
     @objc public func getLocationStatus() -> Bool {
@@ -176,7 +180,6 @@ public class PLPositioning: NSObject {
     public func stopPoilabsPositioning() {
         self.stopTimer()
         beaconLocationManager.stopBeaconPositioning()
-        pdrManager.stopPDR()
     }
     
     @objc
@@ -185,6 +188,13 @@ public class PLPositioning: NSObject {
         beaconLocationManager = nil
     }
     
+    public func stepDetected(heading: Double, lenght: Double) {
+        pdrManager.stepDetected(heading: heading, lenght: lenght)
+    }
+    
+    public func calculateLocation(locations: [PLPBeacon]) {
+        indoorPositioning.calculateLocation(locations: locations)
+    }
 }
 
 extension PLPositioning {
@@ -207,33 +217,6 @@ extension PLPositioning {
     }
 }
 
-extension PLPositioning: PLPLocationManagerDelegate {
-    func locationManager(didChangeAuthorization status: CLAuthorizationStatus) {
-        
-    }
-    
-    func locationManager(didFail error: PoilabsPositioningError) {
-        
-    }
-    
-    func locationManager(didFound beacons: [PLPBeacon]) {
-        
-    }
-    
-    func locationManager(didUpdateHeading newHeading: CLHeading) {
-        delegate?.poilabsPositioning(didUpdateHeading: newHeading)
-    }
-    
-    func locationManagerDidStartRanging() {
-        
-    }
-    
-    func locationManager(didUpdateLocation location: CLLocation) {
-        delegate?.poilabsPositioning(didUpdateLocation: location)
-    }
-    
-    
-}
 
 extension PLPositioning: PLPBeaconPositionFinderDelegate {    
     func beaconPositionFinder(didFindLocation location: PLPLocation, accuracy: Double) {
@@ -292,7 +275,7 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
 
 extension PLPositioning: PLPPDRManagerDelegate {
     func plpPdrManagerStuck() {
-        indoorPositioning.forceToResetAfterStuck()
+        //indoorPositioning.forceToResetAfterStuck()
     }
     
     func plpPdrManager(newLocationCalculated location: CLLocationCoordinate2D) {
@@ -301,7 +284,8 @@ extension PLPositioning: PLPPDRManagerDelegate {
         }
         self.accuracy += 0.1
         guard let floorLevel = self.currentFloorLevel else { return }
-        delegate?.poilabsPositioning(didUpdateLocation: location, floorLevel: floorLevel, accuracy: self.accuracy)
+        PLPLocationCalculator.shared.feedKalman(location: location)
+        //delegate?.poilabsPositioning(didUpdateLocation: location, floorLevel: floorLevel, accuracy: self.accuracy)
         self.lastLocation = location
         indoorPositioning.setLastPdrLocation(coordinates: location)
     }
