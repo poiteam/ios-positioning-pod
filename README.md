@@ -3,7 +3,7 @@
 1. Open your project in Xcode
 2. File > Swift Packages > Add Package Dependency
 3. Enter "https://github.com/poiteam/ios-positioning-pod" as the URL
-4. Select "Up to Next Major" and specify version "1.1.1"
+4. Select "Up to Next Major" and specify version "1.0.20"
 5. Click "Add" button
 6. "PoilabsPositioning" library will be added to your project
 

@@ -1,4 +1,3 @@
-
 #
 #  Be sure to run `pod spec lint PoilabsNavigation.podspec' to ensure this is a
 #  valid spec and to remove all comments including this before submitting the spec.
@@ -17,7 +16,7 @@ s.summary = "PoilabsPositioning"
 #s.requires_arc = true
 
 #2
-s.version = "1.0.19"
+s.version = "1.0.20"
 
 # 3
 s.license = { :type => "Proprietary", :file => "LICENSE" }
