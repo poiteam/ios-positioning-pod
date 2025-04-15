@@ -31,11 +31,5 @@ s.homepage = "https://github.com/poiteam/ios-positioning-pod"
 s.source = { :git => "https://github.com/poiteam/ios-positioning-pod.git",
              :tag => "#{s.version}" }
 
-s.pod_target_xcconfig = {
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
-  }
-  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-
-
 s.ios.vendored_frameworks = 'PoilabsPositioning.xcframework'
 end
