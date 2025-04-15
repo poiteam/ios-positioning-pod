@@ -13,10 +13,12 @@ public protocol PoilabsPositioningDelegate {
     @objc func poilabsPositioning(didStatusChange status: PLPStatus, reason: PLPLocationStatusReason)
     @objc func poilabsPositioning(didFindBeacon uuid: String, major: String, minor: String)
     @objc func poilabsPositioning(didFail error: PoilabsPositioningError)
-    @objc func poilabsPositioning(didUpdateLocation location: CLLocationCoordinate2D, floorLevel: Int, accuracy: Double)
+    @objc func poilabsPositioning(didUpdateLocation location: CLLocationCoordinate2D, floorLevel: Int, accuracy: Double, placeId: String)
     @objc func poilabsPositioning(didUpdateHeading heading: CLHeading)
     @objc func poilabsPositioningDidStart()
     @objc func poilabsPositioning(didThresholdChange threshold: Int)
+    @objc func poilabsPositioning(didUpdateLocation location: CLLocation, placeId: String)
+    @objc func poilabsPositioning(didUpdate modeInfo: PLPositioningModeInfo)
 }
 
 class PLPHeading: CLHeading {
@@ -102,6 +104,7 @@ public class PLPositioning: NSObject {
     
     private var timer: Timer?
     private var lastLocation: CLLocationCoordinate2D? = nil
+    private var lastPlaceId: String? = nil
     private var currentFloorLevel: Int? = nil
     private var accuracy = 3.0
     
@@ -111,26 +114,19 @@ public class PLPositioning: NSObject {
     private var indoorPositioning: PLPIndoorPositioning!
     @objc public var delegate: PoilabsPositioningDelegate?
     
+    private var locationManager: PLPLocationManager?
+    
     private var bluetoohStatus: Bool = true
+    
+    private var positioningMode: PLPositioningMode = .edge
     
     @objc
     public init(config: PLPConfig) {
         super.init()
         self.config = config
-        indoorPositioning = PLPIndoorPositioning(scanInvertal: config.scanInterval)
+        indoorPositioning = PLPIndoorPositioning(scanInvertal: config.scanInterval, multilateration: config.multilateration)
         pdrManager = PLPPDRManager()
         PLPRssiThresholdCalculator.shared.delegate = self
-        pdrManager.delegate = self
-        
-        if beaconLocationManager == nil {
-            beaconLocationManager = PLPBeaconPositionFinder(config: config, indoorPositioning: indoorPositioning)
-        }
-        beaconLocationManager.delegate = self
-        
-    }
-    
-    public func startpdr(location: CLLocationCoordinate2D) {
-        pdrManager.startPDR(startCoordinate: location)
     }
     
     @objc public func setMapRotateAngle(mapRotateAngle: Double) {
@@ -147,12 +143,6 @@ public class PLPositioning: NSObject {
     
     @objc
     public func startPoilabsPositioning() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = NSLocale.current
-        dateFormatter.dateFormat = "dd-MM-yyyy HH-mm"
-        
-        PoilabsPositioningUtils.directoryName = dateFormatter.string(from: Date())
-        
         if beaconLocationManager == nil {
             beaconLocationManager = PLPBeaconPositionFinder(config: config, indoorPositioning: indoorPositioning)
         }
@@ -162,6 +152,28 @@ public class PLPositioning: NSObject {
         self.startTimer()
 
         pdrManager.delegate = self
+    }
+    
+    @objc public func startPoilabsOutdoorPositioning() {
+        locationManager = PLPLocationManager(config: self.config)
+        locationManager?.delegate = self
+        locationManager?.startLocationUpdates()
+    }
+    
+    @objc public func startHybridPositioning() {
+        if beaconLocationManager == nil {
+            beaconLocationManager = PLPBeaconPositionFinder(config: config, indoorPositioning: indoorPositioning)
+        }
+        beaconLocationManager.delegate = self
+        delegate?.poilabsPositioning(didStatusChange: .waitingForLocation, reason: .noReason)
+        beaconLocationManager.startHybridPositioning()
+        self.startTimer()
+
+        pdrManager.delegate = self
+    }
+    
+    @objc public func stopPoilabsOutdoorPositioning() {
+        locationManager?.stopLocationUpdates()
     }
     
     @objc public func getLocationStatus() -> Bool {
@@ -180,6 +192,7 @@ public class PLPositioning: NSObject {
     public func stopPoilabsPositioning() {
         self.stopTimer()
         beaconLocationManager.stopBeaconPositioning()
+        pdrManager.stopPDR()
     }
     
     @objc
@@ -188,13 +201,6 @@ public class PLPositioning: NSObject {
         beaconLocationManager = nil
     }
     
-    public func stepDetected(heading: Double, lenght: Double) {
-        pdrManager.stepDetected(heading: heading, lenght: lenght)
-    }
-    
-    public func calculateLocation(locations: [PLPBeacon]) {
-        indoorPositioning.calculateLocation(locations: locations)
-    }
 }
 
 extension PLPositioning {
@@ -217,15 +223,65 @@ extension PLPositioning {
     }
 }
 
+extension PLPositioning: PLPLocationManagerDelegate {
+    func locationManager(positioningModeDidChange mode: PLPositioningMode) {
+        
+    }
+    
+    func locationManager(didUpdatePositioningModeInfo modeInfo: PLPositioningModeInfo) {
+        
+    }
+    
+    func locationManager(didChangeAuthorization status: CLAuthorizationStatus) {
+        
+    }
+    
+    func locationManager(didFail error: PoilabsPositioningError) {
+        
+    }
+    
+    func locationManager(didFound beacons: [PLPBeacon]) {
+        
+    }
+    
+    func locationManager(didUpdateHeading newHeading: CLHeading) {
+        delegate?.poilabsPositioning(didUpdateHeading: newHeading)
+    }
+    
+    func locationManagerDidStartRanging() {
+        
+    }
+    
+    func locationManager(didUpdateLocation location: CLLocation) {
+        delegate?.poilabsPositioning(didUpdateLocation: location, placeId: "")
+    }
+    
+    
+}
 
-extension PLPositioning: PLPBeaconPositionFinderDelegate {    
+extension PLPositioning: PLPBeaconPositionFinderDelegate {
+    func beaconPositionFinder(didUpdate positioningModeInfo: PLPositioningModeInfo) {
+        delegate?.poilabsPositioning(didUpdate: positioningModeInfo)
+    }
+    
+    func beaconPositionFinder(didUpdateLocation location: CLLocation) {
+        self.positioningMode = .outdoor
+        delegate?.poilabsPositioning(didUpdateLocation: location, placeId: "")
+        pdrManager.stopPDR()
+    }
+    
     func beaconPositionFinder(didFindLocation location: PLPLocation, accuracy: Double) {
+        if self.positioningMode == .outdoor {
+            pdrManager.restartPDR()
+        }
+        self.positioningMode = .indoor
         let locationCoordinates = location.getLocation()
         self.accuracy = accuracy
         self.lastLocation = locationCoordinates
         self.currentFloorLevel = location.floorLevel
         guard let floorLevel = self.currentFloorLevel else { return }
-        delegate?.poilabsPositioning(didUpdateLocation: locationCoordinates, floorLevel: floorLevel, accuracy: accuracy)
+        let placeId = PLPGeoJSONMapManager.shared.getPlaceId(for: location.getLocation()) ?? ""
+        delegate?.poilabsPositioning(didUpdateLocation: locationCoordinates, floorLevel: floorLevel, accuracy: accuracy, placeId: placeId)
         pdrManager.currentFloorLevel = location.floorLevel
         pdrManager.startPDR(startCoordinate: locationCoordinates)
         indoorPositioning.setLastPdrLocation(coordinates: locationCoordinates)
@@ -275,7 +331,7 @@ extension PLPositioning: PLPBeaconPositionFinderDelegate {
 
 extension PLPositioning: PLPPDRManagerDelegate {
     func plpPdrManagerStuck() {
-        //indoorPositioning.forceToResetAfterStuck()
+        indoorPositioning.forceToResetAfterStuck()
     }
     
     func plpPdrManager(newLocationCalculated location: CLLocationCoordinate2D) {
@@ -284,8 +340,11 @@ extension PLPositioning: PLPPDRManagerDelegate {
         }
         self.accuracy += 0.1
         guard let floorLevel = self.currentFloorLevel else { return }
-        PLPLocationCalculator.shared.feedKalman(location: location)
-        //delegate?.poilabsPositioning(didUpdateLocation: location, floorLevel: floorLevel, accuracy: self.accuracy)
+        let placeId = PLPGeoJSONMapManager.shared.getPlaceId(for: location) ?? lastPlaceId ?? ""
+        if placeId != "" {
+            lastPlaceId = placeId
+        }
+        delegate?.poilabsPositioning(didUpdateLocation: location, floorLevel: floorLevel, accuracy: self.accuracy, placeId: placeId)
         self.lastLocation = location
         indoorPositioning.setLastPdrLocation(coordinates: location)
     }

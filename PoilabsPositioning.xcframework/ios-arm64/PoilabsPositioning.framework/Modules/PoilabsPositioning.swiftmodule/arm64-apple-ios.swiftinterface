@@ -13,6 +13,14 @@ import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+@objc public enum HeadingMode : Swift.Int {
+  case trueHeading, computedHeading
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
 public struct GeometryCollection : Swift.Equatable, ForeignMemberContainer {
   public var geometries: [Geometry]
   public var foreignMembers: JSONObject
@@ -23,6 +31,10 @@ public struct GeometryCollection : Swift.Equatable, ForeignMemberContainer {
 extension GeometryCollection : Swift.Codable {
   public init(from decoder: any Swift.Decoder) throws
   public func encode(to encoder: any Swift.Encoder) throws
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class PLPLocation : ObjectiveC.NSObject {
+  public func getLocation() -> CoreLocation.CLLocationCoordinate2D
+  @objc deinit
 }
 extension Swift.Double {
   @inlinable public static var VALUE_NOT_SET: Swift.Double {
@@ -188,6 +200,7 @@ extension FeatureIdentifier : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
 }
 @objc public class PLPBeaconNode : ObjectiveC.NSObject, Swift.Codable {
+  final public let minor: Swift.Int
   @objc final public let lat: Swift.Double
   @objc final public let lon: Swift.Double
   @objc final public let floor: Swift.Int
@@ -208,17 +221,6 @@ public struct MultiPoint : Swift.Equatable, ForeignMemberContainer {
 extension MultiPoint : Swift.Codable {
   public init(from decoder: any Swift.Decoder) throws
   public func encode(to encoder: any Swift.Encoder) throws
-}
-public class PLPDBScan {
-  public init()
-  public func dbscan(beacons: [PLPBeacon]) -> ([CoreLocation.CLLocationCoordinate2D], [[CoreLocation.CLLocationCoordinate2D]])
-  @objc deinit
-}
-extension CoreLocation.CLLocationCoordinate2D : Swift.Hashable {
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
-    get
-  }
 }
 public struct MultiPolygon : Swift.Equatable, ForeignMemberContainer {
   public var coordinates: [[[LocationCoordinate2D]]]
@@ -268,13 +270,9 @@ extension CoreLocation.CLLocationCoordinate2D : Swift.Equatable {
   public func coordinate(at distance: LocationDistance, facing direction: Foundation.Measurement<Foundation.UnitAngle>) -> LocationCoordinate2D
   public func distance(to coordinate: LocationCoordinate2D) -> LocationDistance
 }
-public class PLPStepManager {
-  public init()
-  public func detectSteps(signal: PLPMotionSignal, te: Swift.Double? = nil)
-  @objc deinit
-}
 @_inheritsConvenienceInitializers @objc public class PLPGeoJSONMapManager : ObjectiveC.NSObject {
   @objc public static var shared: PLPGeoJSONMapManager
+  @objc public func getZoneId(for coordinate: CoreLocation.CLLocationCoordinate2D) -> Swift.String?
   @objc public func setWalkways(dict: Foundation.NSDictionary?)
   @objc override dynamic public init()
   @objc deinit
@@ -302,8 +300,13 @@ extension Feature : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
 }
 @objc public class PLPConfig : ObjectiveC.NSObject {
-  @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode])
   @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode], multilateration: Swift.Bool)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class PLPositioningModeInfo : ObjectiveC.NSObject {
+  final public let gpsAccuracy: CoreLocation.CLLocationAccuracy
+  final public let averageRSSI: Swift.Int
+  final public let bestRSSI: Swift.Int
   @objc deinit
 }
 public struct LineString : Swift.Equatable, ForeignMemberContainer {
@@ -337,13 +340,7 @@ extension LineString {
 }
 @_inheritsConvenienceInitializers @objc public class PLPBeacon : ObjectiveC.NSObject {
   public var avgRssi: Swift.Double
-  public var coordinate: CoreLocation.CLLocationCoordinate2D? {
-    get
-  }
   public static func == (lhs: PLPBeaconNode, rhs: PLPBeacon) -> Swift.Bool
-  convenience public init(major: Swift.Int, minor: Swift.Int, rssi: Swift.Int)
-  public func setLocation(lat: Swift.Double, lon: Swift.Double)
-  public func setFloorLevel(floorLevel: Swift.Int)
   @objc override dynamic public init()
   @objc deinit
 }
@@ -355,32 +352,28 @@ extension PLPBeacon : Swift.Comparable {
   @objc func poilabsPositioning(didStatusChange status: PLPStatus, reason: PLPLocationStatusReason)
   @objc func poilabsPositioning(didFindBeacon uuid: Swift.String, major: Swift.String, minor: Swift.String)
   @objc func poilabsPositioning(didFail error: PoilabsPositioningError)
-  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, floorLevel: Swift.Int, accuracy: Swift.Double)
+  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocationCoordinate2D, floorLevel: Swift.Int, accuracy: Swift.Double, placeId: Swift.String)
   @objc func poilabsPositioning(didUpdateHeading heading: CoreLocation.CLHeading)
   @objc func poilabsPositioningDidStart()
   @objc func poilabsPositioning(didThresholdChange threshold: Swift.Int)
+  @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocation, placeId: Swift.String)
+  @objc func poilabsPositioning(didUpdate modeInfo: PLPositioningModeInfo)
 }
 @objc public class PLPositioning : ObjectiveC.NSObject {
   @objc public var delegate: (any PoilabsPositioningDelegate)?
   @objc public init(config: PLPConfig)
-  public func startpdr(location: CoreLocation.CLLocationCoordinate2D)
   @objc public func setMapRotateAngle(mapRotateAngle: Swift.Double)
   @objc public func setConversionFactor(conversionFactor: Swift.Double)
   @objc public func setWeinbergConstant(weinberg: Swift.Double)
   @objc public func startPoilabsPositioning()
+  @objc public func startPoilabsOutdoorPositioning()
+  @objc public func startHybridPositioning()
+  @objc public func stopPoilabsOutdoorPositioning()
   @objc public func getLocationStatus() -> Swift.Bool
   @objc public func getBluetoothStatus() -> Swift.Bool
   @objc public func startPoilabsPositioning(with beaconList: [PLPBeaconNode])
   @objc public func stopPoilabsPositioning()
   @objc public func closeAllActions()
-  public func stepDetected(heading: Swift.Double, lenght: Swift.Double)
-  public func calculateLocation(locations: [PLPBeacon])
-  @objc deinit
-}
-public class PLPHeadingManager {
-  public init()
-  public var firstMag: Swift.Double?
-  public func calculateHeading(signal: PLPMotionSignal) -> Swift.Double
   @objc deinit
 }
 @objc public enum PLPStatus : Swift.Int, Swift.RawRepresentable {
@@ -596,9 +589,6 @@ extension Point : Swift.Codable {
   public init(from decoder: any Swift.Decoder) throws
   public func encode(to encoder: any Swift.Encoder) throws
 }
-public struct PLPMotionSignal {
-  public init(rawMagneticField: CoreMotion.CMMagneticField, rawAccelerometer: CoreMotion.CMAcceleration, quaternion: CoreMotion.CMQuaternion, rotationMatrix: CoreMotion.CMRotationMatrix, calibratedGyroscope: CoreMotion.CMRotationRate, trueHeading: CoreLocation.CLLocationDirection, magneticHeading: CoreLocation.CLLocationDirection)
-}
 public struct MultiLineString : Swift.Equatable, ForeignMemberContainer {
   public var coordinates: [[LocationCoordinate2D]]
   public var foreignMembers: JSONObject
@@ -626,6 +616,9 @@ extension MultiLineString : Swift.Codable {
   }
   public init?(rawValue: PoilabsPositioningError.RawValue)
 }
+extension HeadingMode : Swift.Equatable {}
+extension HeadingMode : Swift.Hashable {}
+extension HeadingMode : Swift.RawRepresentable {}
 extension PLPStatus : Swift.Equatable {}
 extension PLPStatus : Swift.Hashable {}
 extension PLPLocationStatusReason : Swift.Equatable {}

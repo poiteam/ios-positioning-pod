@@ -23,9 +23,6 @@ public class PLPGeoJSONMapManager: NSObject {
     
     
     func isInWalkway(point: CLLocationCoordinate2D) -> Bool {
-        if walkways.isEmpty {
-            return true
-        }
         var result = false
         for polygon in walkways {
             result = polygon.contains(point)
@@ -34,6 +31,26 @@ public class PLPGeoJSONMapManager: NSObject {
             }
         }
         return result
+    }
+    
+    @objc public func getZoneId(for coordinate: CLLocationCoordinate2D) -> String? {
+        if let polygon = getZone(for: coordinate) {
+            if case let .string(zoneId) = polygon.foreignMembers["zone_id"] {
+                return zoneId
+            }
+        }
+        return nil
+    }
+    
+    func getPlaceId(for coordinates: CLLocationCoordinate2D) -> String? {
+        for polygon in walkways {
+            if polygon.contains(coordinates) == true {
+                if case let .string(placeId) = polygon.foreignMembers["place_id"] {
+                    return placeId
+                }
+            }
+        }
+        return nil
     }
     
     private func getZone(for coordinate: CLLocationCoordinate2D) -> MultiPolygon? {
@@ -69,6 +86,17 @@ public class PLPGeoJSONMapManager: NSObject {
             return []
         }
         return getPassList(for: polygon)
+    }
+    
+    func doesIntersectWalkway(pre_location: CLLocationCoordinate2D, new_location: CLLocationCoordinate2D) -> Bool {
+        var doesIntersect = false
+        let line = LineString([pre_location, new_location])
+        linestrings.forEach { walkwayLine in
+            if !walkwayLine.intersections(with: line).isEmpty {
+                doesIntersect = true
+            }
+        }
+        return doesIntersect
     }
     
     func canPassZone(oldCoordinate: CLLocationCoordinate2D, newCoordinate: CLLocationCoordinate2D) -> Bool {
@@ -136,6 +164,9 @@ public class PLPGeoJSONMapManager: NSObject {
             }
             guard let nearestPointOnLine = lineString.closestCoordinate(to: point)?.coordinate else { return }
             let distance = nearestPointOnLine.distance(to: point)
+            if distance > 5 {
+                return
+            }
             if distance < minDistance {
                 minDistance = distance
                 nearestPoint = nearestPointOnLine

@@ -16,7 +16,7 @@ s.summary = "PoilabsPositioning"
 #s.requires_arc = true
 
 #2
-s.version = "1.0.20"
+s.version = "1.2.0"
 
 # 3
 s.license = { :type => "Proprietary", :file => "LICENSE" }
