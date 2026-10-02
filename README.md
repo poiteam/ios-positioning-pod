@@ -11,21 +11,13 @@ PoilabsPositioning is installed automatically as a dependency of PoilabsVdNaviga
 
 ## Installation
 
-### Swift Package Manager (recommended)
+PoilabsPositioning is distributed with Swift Package Manager. CocoaPods is no longer supported; new versions are not published there.
+
+### Swift Package Manager
 
 1. In Xcode, select **File > Add Package Dependencies...**
 2. Enter the repository URL: `https://github.com/poiteam/ios-positioning-pod.git`
 3. Choose **Exact Version** `1.2.0` and add the **PoilabsPositioning** product to your app target.
-
-Use either SPM or CocoaPods for Poilabs SDKs, not both in the same app.
-
-### CocoaPods
-
-PoilabsPositioning is no longer updated on CocoaPods trunk. To install it from the git tag:
-
-```ruby
-pod 'PoilabsPositioning', :git => 'https://github.com/poiteam/ios-positioning-pod.git', :tag => '1.2.0'
-```
 
 ## Pre-requirements
 
