@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
-// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name PoilabsPositioning
-// swift-module-flags-ignorable: -enable-bare-slash-regex
+// swift-compiler-version: Apple Swift version 6.1.2 effective-5.10 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name PoilabsPositioning
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -interface-compiler-version 6.1.2
 import Accelerate
 import CoreLocation
 import CoreMotion
@@ -168,8 +168,8 @@ public enum FeatureIdentifier : Swift.Hashable {
   public init(_ string: Swift.String)
   public init<Source>(_ number: Source) where Source : Swift.BinaryInteger
   public init<Source>(_ number: Source) where Source : Swift.BinaryFloatingPoint
-  public func hash(into hasher: inout Swift.Hasher)
   public static func == (a: FeatureIdentifier, b: FeatureIdentifier) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
@@ -461,8 +461,8 @@ public enum JSONValue : Swift.Hashable {
   public init(_ bool: Swift.Bool)
   public init(_ values: JSONArray)
   public init(_ properties: JSONObject)
-  public func hash(into hasher: inout Swift.Hasher)
   public static func == (a: JSONValue, b: JSONValue) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
