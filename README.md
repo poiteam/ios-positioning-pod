@@ -17,7 +17,7 @@ PoilabsPositioning is distributed with Swift Package Manager. CocoaPods is no lo
 
 1. In Xcode, select **File > Add Package Dependencies...**
 2. Enter the repository URL: `https://github.com/poiteam/ios-positioning-pod.git`
-3. Choose **Exact Version** `1.2.1` and add the **PoilabsPositioning** product to your app target.
+3. Choose **Exact Version** `1.2.2` and add the **PoilabsPositioning** product to your app target.
 
 ## Pre-requirements
 

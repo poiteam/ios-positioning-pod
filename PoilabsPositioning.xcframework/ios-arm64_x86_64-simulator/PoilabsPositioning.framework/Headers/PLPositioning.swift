@@ -19,6 +19,8 @@ public protocol PoilabsPositioningDelegate {
     @objc func poilabsPositioning(didThresholdChange threshold: Int)
     @objc func poilabsPositioning(didUpdateLocation location: CLLocation, placeId: String)
     @objc func poilabsPositioning(didUpdate modeInfo: PLPositioningModeInfo)
+    /// Hybrid positioning switched mode (INDOOR / EDGE / OUTDOOR). Optional so existing delegates keep compiling.
+    @objc optional func poilabsPositioning(didChangeMode mode: PLPositioningMode)
 }
 
 class PLPHeading: CLHeading {
@@ -262,6 +264,10 @@ extension PLPositioning: PLPLocationManagerDelegate {
 extension PLPositioning: PLPBeaconPositionFinderDelegate {
     func beaconPositionFinder(didUpdate positioningModeInfo: PLPositioningModeInfo) {
         delegate?.poilabsPositioning(didUpdate: positioningModeInfo)
+    }
+    
+    func beaconPositionFinder(didChangeMode mode: PLPositioningMode) {
+        delegate?.poilabsPositioning?(didChangeMode: mode)
     }
     
     func beaconPositionFinder(didUpdateLocation location: CLLocation) {

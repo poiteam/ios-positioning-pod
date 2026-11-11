@@ -303,10 +303,27 @@ extension Feature : Swift.Codable {
   @objc public init(scanInterval: Swift.Double, locationUpdateInterval: Swift.Double, beaconFilters: [PLPBeaconFilter], rssiFilter: Swift.Double, beaconList: [PLPBeaconNode], multilateration: Swift.Bool)
   @objc deinit
 }
+@objc public enum PLPositioningMode : Swift.Int, Swift.CustomStringConvertible {
+  case indoor, outdoor, edge
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
 @_hasMissingDesignatedInitializers @objc public class PLPositioningModeInfo : ObjectiveC.NSObject {
   final public let gpsAccuracy: CoreLocation.CLLocationAccuracy
   final public let averageRSSI: Swift.Int
   final public let bestRSSI: Swift.Int
+  @objc final public let mode: PLPositioningMode
+  @objc final public let score: Swift.Double
+  @objc final public let beaconCount: Swift.Int
+  @objc final public let insideCounter: Swift.Int
+  @objc final public let outsideCounter: Swift.Int
+  @objc final public let edgeThreshold: Swift.Int
   @objc deinit
 }
 public struct LineString : Swift.Equatable, ForeignMemberContainer {
@@ -358,6 +375,7 @@ extension PLPBeacon : Swift.Comparable {
   @objc func poilabsPositioning(didThresholdChange threshold: Swift.Int)
   @objc func poilabsPositioning(didUpdateLocation location: CoreLocation.CLLocation, placeId: Swift.String)
   @objc func poilabsPositioning(didUpdate modeInfo: PLPositioningModeInfo)
+  @objc optional func poilabsPositioning(didChangeMode mode: PLPositioningMode)
 }
 @objc public class PLPositioning : ObjectiveC.NSObject {
   @objc public var delegate: (any PoilabsPositioningDelegate)?
@@ -619,6 +637,9 @@ extension MultiLineString : Swift.Codable {
 extension HeadingMode : Swift.Equatable {}
 extension HeadingMode : Swift.Hashable {}
 extension HeadingMode : Swift.RawRepresentable {}
+extension PLPositioningMode : Swift.Equatable {}
+extension PLPositioningMode : Swift.Hashable {}
+extension PLPositioningMode : Swift.RawRepresentable {}
 extension PLPStatus : Swift.Equatable {}
 extension PLPStatus : Swift.Hashable {}
 extension PLPLocationStatusReason : Swift.Equatable {}

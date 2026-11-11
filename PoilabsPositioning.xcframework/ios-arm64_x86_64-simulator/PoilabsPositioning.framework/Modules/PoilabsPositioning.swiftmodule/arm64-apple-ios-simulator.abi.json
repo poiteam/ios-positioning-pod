@@ -7334,6 +7334,317 @@
       },
       {
         "kind": "TypeDecl",
+        "name": "PLPositioningMode",
+        "printedName": "PLPositioningMode",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "indoor",
+            "printedName": "indoor",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(PoilabsPositioning.PLPositioningMode.Type) -> PoilabsPositioning.PLPositioningMode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PLPositioningMode",
+                    "printedName": "PoilabsPositioning.PLPositioningMode",
+                    "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "PoilabsPositioning.PLPositioningMode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PLPositioningMode",
+                        "printedName": "PoilabsPositioning.PLPositioningMode",
+                        "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode@PLPositioningModeIndoor",
+            "mangledName": "$s18PoilabsPositioning17PLPositioningModeO6indooryA2CmF",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "ObjC"
+            ],
+            "fixedbinaryorder": 0
+          },
+          {
+            "kind": "Var",
+            "name": "outdoor",
+            "printedName": "outdoor",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(PoilabsPositioning.PLPositioningMode.Type) -> PoilabsPositioning.PLPositioningMode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PLPositioningMode",
+                    "printedName": "PoilabsPositioning.PLPositioningMode",
+                    "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "PoilabsPositioning.PLPositioningMode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PLPositioningMode",
+                        "printedName": "PoilabsPositioning.PLPositioningMode",
+                        "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode@PLPositioningModeOutdoor",
+            "mangledName": "$s18PoilabsPositioning17PLPositioningModeO7outdooryA2CmF",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "ObjC"
+            ],
+            "fixedbinaryorder": 1
+          },
+          {
+            "kind": "Var",
+            "name": "edge",
+            "printedName": "edge",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(PoilabsPositioning.PLPositioningMode.Type) -> PoilabsPositioning.PLPositioningMode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PLPositioningMode",
+                    "printedName": "PoilabsPositioning.PLPositioningMode",
+                    "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "PoilabsPositioning.PLPositioningMode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PLPositioningMode",
+                        "printedName": "PoilabsPositioning.PLPositioningMode",
+                        "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode@PLPositioningModeEdge",
+            "mangledName": "$s18PoilabsPositioning17PLPositioningModeO4edgeyA2CmF",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "ObjC"
+            ],
+            "fixedbinaryorder": 2
+          },
+          {
+            "kind": "Var",
+            "name": "description",
+            "printedName": "description",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:18PoilabsPositioning17PLPositioningModeO11descriptionSSvp",
+            "mangledName": "$s18PoilabsPositioning17PLPositioningModeO11descriptionSSvp",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18PoilabsPositioning17PLPositioningModeO11descriptionSSvg",
+                "mangledName": "$s18PoilabsPositioning17PLPositioningModeO11descriptionSSvg",
+                "moduleName": "PoilabsPositioning",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "PoilabsPositioning.PLPositioningMode?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PLPositioningMode",
+                    "printedName": "PoilabsPositioning.PLPositioningMode",
+                    "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:18PoilabsPositioning17PLPositioningModeO8rawValueACSgSi_tcfc",
+            "mangledName": "$s18PoilabsPositioning17PLPositioningModeO8rawValueACSgSi_tcfc",
+            "moduleName": "PoilabsPositioning",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "rawValue",
+            "printedName": "rawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:18PoilabsPositioning17PLPositioningModeO8rawValueSivp",
+            "mangledName": "$s18PoilabsPositioning17PLPositioningModeO8rawValueSivp",
+            "moduleName": "PoilabsPositioning",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18PoilabsPositioning17PLPositioningModeO8rawValueSivg",
+                "mangledName": "$s18PoilabsPositioning17PLPositioningModeO8rawValueSivg",
+                "moduleName": "PoilabsPositioning",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode",
+        "mangledName": "$s18PoilabsPositioning17PLPositioningModeO",
+        "moduleName": "PoilabsPositioning",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC",
+          "RawDocComment"
+        ],
+        "enumRawTypeName": "Int",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "RawRepresentable",
+            "printedName": "RawRepresentable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "RawValue",
+                "printedName": "RawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:SY",
+            "mangledName": "$sSY"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
         "name": "PLPositioningModeInfo",
         "printedName": "PLPositioningModeInfo",
         "children": [
@@ -7482,6 +7793,310 @@
             ]
           },
           {
+            "kind": "Var",
+            "name": "mode",
+            "printedName": "mode",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PLPositioningMode",
+                "printedName": "PoilabsPositioning.PLPositioningMode",
+                "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(py)mode",
+            "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC4modeAA0cD0Ovp",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PLPositioningMode",
+                    "printedName": "PoilabsPositioning.PLPositioningMode",
+                    "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(im)mode",
+                "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC4modeAA0cD0Ovg",
+                "moduleName": "PoilabsPositioning",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "score",
+            "printedName": "score",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(py)score",
+            "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC5scoreSdvp",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(im)score",
+                "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC5scoreSdvg",
+                "moduleName": "PoilabsPositioning",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "beaconCount",
+            "printedName": "beaconCount",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(py)beaconCount",
+            "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC11beaconCountSivp",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(im)beaconCount",
+                "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC11beaconCountSivg",
+                "moduleName": "PoilabsPositioning",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "insideCounter",
+            "printedName": "insideCounter",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(py)insideCounter",
+            "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC13insideCounterSivp",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(im)insideCounter",
+                "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC13insideCounterSivg",
+                "moduleName": "PoilabsPositioning",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "outsideCounter",
+            "printedName": "outsideCounter",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(py)outsideCounter",
+            "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC14outsideCounterSivp",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(im)outsideCounter",
+                "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC14outsideCounterSivg",
+                "moduleName": "PoilabsPositioning",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "edgeThreshold",
+            "printedName": "edgeThreshold",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(py)edgeThreshold",
+            "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC13edgeThresholdSivp",
+            "moduleName": "PoilabsPositioning",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@PoilabsPositioning@objc(cs)PLPositioningModeInfo(im)edgeThreshold",
+                "mangledName": "$s18PoilabsPositioning21PLPositioningModeInfoC13edgeThresholdSivg",
+                "moduleName": "PoilabsPositioning",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
             "printedName": "init()",
@@ -7514,7 +8129,8 @@
         "moduleName": "PoilabsPositioning",
         "declAttributes": [
           "AccessControl",
-          "ObjC"
+          "ObjC",
+          "RawDocComment"
         ],
         "superclassUsr": "c:objc(cs)NSObject",
         "hasMissingDesignatedInitializers": true,
@@ -9440,6 +10056,39 @@
             "objc_name": "poilabsPositioningWithDidUpdate:",
             "declAttributes": [
               "ObjC"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "poilabsPositioning",
+            "printedName": "poilabsPositioning(didChangeMode:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PLPositioningMode",
+                "printedName": "PoilabsPositioning.PLPositioningMode",
+                "usr": "c:@M@PoilabsPositioning@E@PLPositioningMode"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@PoilabsPositioning@objc(pl)PoilabsPositioningDelegate(im)poilabsPositioningWithDidChangeMode:",
+            "mangledName": "$s18PoilabsPositioning0aB8DelegateP07poilabsB013didChangeModeyAA013PLPositioningG0O_tF",
+            "moduleName": "PoilabsPositioning",
+            "genericSig": "<τ_0_0 where τ_0_0 : PoilabsPositioning.PoilabsPositioningDelegate>",
+            "sugared_genericSig": "<Self where Self : PoilabsPositioning.PoilabsPositioningDelegate>",
+            "protocolReq": true,
+            "objc_name": "poilabsPositioningWithDidChangeMode:",
+            "declAttributes": [
+              "Optional",
+              "ObjC",
+              "RawDocComment"
             ],
             "reqNewWitnessTableEntry": true,
             "funcSelfKind": "NonMutating"
@@ -20090,126 +20739,161 @@
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 828,
+      "offset": 349,
+      "length": 7,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
+      "kind": "IntegerLiteral",
+      "offset": 358,
+      "length": 4,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1526,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 862,
+      "offset": 1551,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1575,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2576,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2610,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "BooleanLiteral",
-      "offset": 891,
+      "offset": 2639,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 931,
+      "offset": 2679,
       "length": 1,
       "value": "5"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "FloatLiteral",
-      "offset": 1618,
+      "offset": 3521,
       "length": 3,
       "value": "0.0"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 1728,
+      "offset": 3631,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 1751,
+      "offset": 3654,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 1821,
+      "offset": 3724,
       "length": 3,
       "value": "-99"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 1977,
+      "offset": 3880,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2074,
+      "offset": 3977,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2104,
+      "offset": 4007,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2205,
+      "offset": 4108,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2373,
+      "offset": 4276,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2457,
+      "offset": 4360,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2594,
+      "offset": 4497,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2619,
+      "offset": 4522,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2752,
+      "offset": 4655,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioningModeCalculator.swift",
       "kind": "IntegerLiteral",
-      "offset": 2854,
+      "offset": 4757,
       "length": 1,
       "value": "5"
     },
@@ -20370,14 +21054,14 @@
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioning.swift",
       "kind": "FloatLiteral",
-      "offset": 3142,
+      "offset": 3339,
       "length": 3,
       "value": "3.0"
     },
     {
       "filePath": "\/Users\/muhammeteminbaytar\/Poi Ios Project\/ios-positioning\/PoilabsPositioning\/PoilabsPositioning\/PLPositioning.swift",
       "kind": "BooleanLiteral",
-      "offset": 3511,
+      "offset": 3708,
       "length": 4,
       "value": "true"
     },

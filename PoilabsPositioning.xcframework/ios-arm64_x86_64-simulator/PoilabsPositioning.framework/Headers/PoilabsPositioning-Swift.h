@@ -397,8 +397,26 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+/// Hybrid positioning decision: beacon positioning (indoor), GPS (outdoor) or the transition between them (edge).
+typedef SWIFT_ENUM(NSInteger, PLPositioningMode, open) {
+  PLPositioningModeIndoor = 0,
+  PLPositioningModeOutdoor = 1,
+  PLPositioningModeEdge = 2,
+};
+
+/// One hybrid mode calculation (every second while hybrid positioning runs).
 SWIFT_CLASS("_TtC18PoilabsPositioning21PLPositioningModeInfo")
 @interface PLPositioningModeInfo : NSObject
+/// Mode after this calculation.
+@property (nonatomic, readonly) enum PLPositioningMode mode;
+/// Indoor score: >= 0 counts as inside, < 0 as outside.
+@property (nonatomic, readonly) double score;
+/// Beacons counted in this calculation (only beacons in the place’s beacon list once that list is known).
+@property (nonatomic, readonly) NSInteger beaconCount;
+/// Consecutive inside / outside results while switching mode (EDGE); the switch happens at <code>edgeThreshold</code>.
+@property (nonatomic, readonly) NSInteger insideCounter;
+@property (nonatomic, readonly) NSInteger outsideCounter;
+@property (nonatomic, readonly) NSInteger edgeThreshold;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -427,6 +445,9 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidThresholdChange:(NSInteger)threshold;
 - (void)poilabsPositioningWithDidUpdateLocation:(CLLocation * _Nonnull)location placeId:(NSString * _Nonnull)placeId;
 - (void)poilabsPositioningWithDidUpdate:(PLPositioningModeInfo * _Nonnull)modeInfo;
+@optional
+/// Hybrid positioning switched mode (INDOOR / EDGE / OUTDOOR). Optional so existing delegates keep compiling.
+- (void)poilabsPositioningWithDidChangeMode:(enum PLPositioningMode)mode;
 @end
 
 typedef SWIFT_ENUM(NSInteger, PoilabsPositioningError, open) {
@@ -848,8 +869,26 @@ SWIFT_CLASS("_TtC18PoilabsPositioning13PLPositioning")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+/// Hybrid positioning decision: beacon positioning (indoor), GPS (outdoor) or the transition between them (edge).
+typedef SWIFT_ENUM(NSInteger, PLPositioningMode, open) {
+  PLPositioningModeIndoor = 0,
+  PLPositioningModeOutdoor = 1,
+  PLPositioningModeEdge = 2,
+};
+
+/// One hybrid mode calculation (every second while hybrid positioning runs).
 SWIFT_CLASS("_TtC18PoilabsPositioning21PLPositioningModeInfo")
 @interface PLPositioningModeInfo : NSObject
+/// Mode after this calculation.
+@property (nonatomic, readonly) enum PLPositioningMode mode;
+/// Indoor score: >= 0 counts as inside, < 0 as outside.
+@property (nonatomic, readonly) double score;
+/// Beacons counted in this calculation (only beacons in the place’s beacon list once that list is known).
+@property (nonatomic, readonly) NSInteger beaconCount;
+/// Consecutive inside / outside results while switching mode (EDGE); the switch happens at <code>edgeThreshold</code>.
+@property (nonatomic, readonly) NSInteger insideCounter;
+@property (nonatomic, readonly) NSInteger outsideCounter;
+@property (nonatomic, readonly) NSInteger edgeThreshold;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -878,6 +917,9 @@ SWIFT_PROTOCOL("_TtP18PoilabsPositioning26PoilabsPositioningDelegate_")
 - (void)poilabsPositioningWithDidThresholdChange:(NSInteger)threshold;
 - (void)poilabsPositioningWithDidUpdateLocation:(CLLocation * _Nonnull)location placeId:(NSString * _Nonnull)placeId;
 - (void)poilabsPositioningWithDidUpdate:(PLPositioningModeInfo * _Nonnull)modeInfo;
+@optional
+/// Hybrid positioning switched mode (INDOOR / EDGE / OUTDOOR). Optional so existing delegates keep compiling.
+- (void)poilabsPositioningWithDidChangeMode:(enum PLPositioningMode)mode;
 @end
 
 typedef SWIFT_ENUM(NSInteger, PoilabsPositioningError, open) {

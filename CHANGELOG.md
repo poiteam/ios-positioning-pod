@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2026-11-11
+
+### Added
+- `PLPositioningMode` is public (`INDOOR` / `OUTDOOR` / `EDGE`).
+- `PLPositioningModeInfo` exposes `mode`, `score`, `beaconCount`, `insideCounter`, `outsideCounter` and `edgeThreshold`.
+- Optional delegate method `poilabsPositioning(didChangeMode:)`, called when hybrid positioning switches mode. Existing delegates compile unchanged.
+
+### Fixed
+- `stopPoilabsPositioning()` and `closeAllActions()` now also stop the GPS updates and the mode timer started by `startHybridPositioning()`.
+
 ## [1.2.1] - 2026-11-11
 
 ### Changed
